@@ -126,5 +126,5 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 # Folders n files
-unused_backup/
+/unused_backup
 
