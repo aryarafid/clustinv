@@ -74,6 +74,7 @@ class Manage_data extends BaseController
 		// // ========	=	=	=	==	=	=	=	=		=	==memasukkan cluster2 ke array masing2 untuk memudahkan SSE
 		// $clustarray = array();
 		// $clustarray = $this->data_model->clust_array($optable);
+		// $clustarray = array_combine($optable['kode2'],$optable['cluster']);
 
 		// 	// ========	=	=	=	==	=	=	=	=		=	==show array elements that are cluster #1, #2, #3 whatevs
 		// foreach ($optable as $cl) {
@@ -90,10 +91,8 @@ class Manage_data extends BaseController
 
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 Strictly for Outputting Results
 		// echo '<pre>';
-		// var_dump($tabel[36]);
-		// dd($tabel);
+		// var_dump($clustarray);
 
-		// dd($clustarray);
 		dd($optable);
 
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 End

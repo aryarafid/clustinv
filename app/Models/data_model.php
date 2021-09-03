@@ -138,36 +138,34 @@ class data_model extends Model
     public function clust_array($tabel) //masukin hasil clustering ke array biar gmpg hitung sse 2nd phase
     {
         $arrclust = array();
-        // for ($i = 0; $i < count($tabel); $i++) {
-        //     if (
-        //         $tabel[$i]['cluster'] == 1
-        //     ) {
-        //         $arrclust['1'] = $tabel[$i];
+        // foreach ($tabel as $cl) {
+        //     if ($cl['cluster'] == 1) {
+        //         $arrclust['1'] = $cl;
         //     } elseif (
-        //         $tabel[$i]['cluster'] == 2
+        //         $cl['cluster'] == 2
         //     ) {
-        //         $arrclust['2'] = $tabel[$i];
+        //         $arrclust['2'] = $cl;
         //     } elseif (
-        //         $tabel[$i]['cluster'] == 3
+        //         $cl['cluster'] == 3
         //     ) {
-        //         $arrclust['3'] = $tabel[$i];
+        //         $arrclust['3'] = $cl;
         //     }
         // }
 
-        foreach ($tabel as $cl) {
-            if ($cl['cluster'] == 1) {
-                $arrclust['1'] = $cl;
-            } elseif (
-                $cl['cluster'] == 2
-            ) {
-                $arrclust['2'] = $cl;
-            } elseif (
-                $cl['cluster'] == 3
-            ) {
-                $arrclust['3'] = $cl;
-            }
-        }
+        // $arrclust = [
+        //     'kode' => array_column($tabel, 'kode2'),
+        //     'cluster' => array_column($tabel, 'cluster')
+        // ];
 
+        // $arrclust['kode'] = $tabel['kode2'];
+
+        // forloop/foreach $tabel[$i]['kode2']
+        // .....
+
+        // $arrclust['cluster'] = $tabel['cluster'];
+        foreach ($tabel as $tab) {
+            $arrclust = array_combine($tabel[$tab]['kode2'], $tabel[$tab]['cluster']);
+        }
         // $arrclust = array_splice($tabel);
         return $arrclust;
     }
