@@ -54,11 +54,11 @@ class Manage_data extends BaseController
 
 		for ($i = 0; $i < 100; $i++) {
 			$tampilloop[$i] = [
-				'meds1' => $meds1   = $this->data_model->getMedoidNorm($tabel),
-				'optable' => $optable = $this->data_model->countdis1($optable, $meds1),
-				'optable' => $optable = $this->data_model->getSimpangan($optable),
-				'optable' => $optable = $this->data_model->clustering($optable),
-				'jumsimp' => $jumsimp = $this->data_model->sumSimpangan($optable),
+				'meds1' 	=> $meds1   = $this->data_model->getMedoidNorm($tabel),
+				'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
+				'optable' 	=> $optable = $this->data_model->getSimpangan($optable),
+				'optable' 	=> $optable = $this->data_model->clustering($optable),
+				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
 			];
 		}
 
@@ -73,8 +73,19 @@ class Manage_data extends BaseController
 
 		// // ========	=	=	=	==	=	=	=	=		=	==memasukkan cluster2 ke array masing2 untuk memudahkan SSE
 		// $clustarray = array();
-		// $clustarray = $this->data_model->clust_array($optable);
-		// $clustarray = array_combine($optable['kode2'],$optable['cluster']);
+
+		for ($i = 0; $i < count($optable); $i++) {
+			$clustarray[$i] = [
+				'cluster' 	=> $optable[$i]['cluster'],
+				'kode2' 	=> $optable[$i]['kode2'],
+				'terjual2'	=> $optable[$i]['terjual2'],
+				'frek2' 	=> $optable[$i]['frek2'],
+			];
+		}
+		asort($clustarray);
+		$cl1 = $this->data_model->clust_array($clustarray, 1);
+		$cl2 = $this->data_model->clust_array($clustarray, 2);
+		$cl3 = $this->data_model->clust_array($clustarray, 3);
 
 		// 	// ========	=	=	=	==	=	=	=	=		=	==show array elements that are cluster #1, #2, #3 whatevs
 		// foreach ($optable as $cl) {
@@ -86,12 +97,8 @@ class Manage_data extends BaseController
 
 		// validasi SSE
 		$optable = $this->data_model->sse_first($optable);
-		// $optable = ksort($optable, 'cluster');
-
 
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 Strictly for Outputting Results
-		// echo '<pre>';
-		// var_dump($clustarray);
 
 		dd($optable);
 
