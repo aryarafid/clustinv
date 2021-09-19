@@ -15,8 +15,17 @@ class Manage_data extends BaseController
 
 	public function index()
 	{
-		$this->db = db_connect();
+		$data = [
+			'title'		=> 'Manage Data ClustInv',
+			'heading'	=> 'Form Upload Dokumen Excel',
+		];
+		return view('manage_data/md_dash',$data);
+	}
 
+	public function clustering()
+	{
+		$this->db = db_connect();
+		$loopke = 0;
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 start loop UNTUK DAPET SIL_CO >80%
 		do {
 
@@ -55,6 +64,8 @@ class Manage_data extends BaseController
 			$lpcnt = 0;		//loop count
 			$selsimp = 0; 	//selisih simpangan
 			$i = 0;			//index loop utk generate 100 tabel
+			// $count1 = 0;				//unused
+			// $count2 = 0;				//unused
 
 			for ($i = 0; $i < 100; $i++) {
 				$tampilloop[$i] = [
@@ -69,13 +80,17 @@ class Manage_data extends BaseController
 			// // ========	=	=	=	==	=	=	=	=		=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
 			do {
 				$selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
-				echo "<hr>";
-				echo $selsimp;
-				echo " ==> loop ke-" . $lpcnt;
 				$lpcnt++;
+				// $count1++;
+				// echo "<hr>";
+				// echo $selsimp;
+				// echo " ==> loop ke-" . $lpcnt;
+				// echo "<br> Itung iseng count1 =" . $count1;
 			} while ($selsimp < 0);
 
-			// // ========	=	=	=	==	=	=	=	=		=	==memasukkan cluster2 ke array masing2 untuk memudahkan SSE
+
+			// // // SSE PROCESS STARTS HERE
+			// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan SSE
 			for ($i = 0; $i < count($optable); $i++) {
 				$clustarray[$i] = [
 					'cluster' 	=> $optable[$i]['cluster'],
@@ -133,28 +148,47 @@ class Manage_data extends BaseController
 
 			// $final_si = number_format(($this->data_model->final_si($final_si)), 3, ',', '.');
 			$final_si = $this->data_model->final_si($final_si);
+			// $count2++;
 
-			echo "<hr>";
-			echo ("Silhouette coefficient akhir = " . $final_si);
+			// echo "<hr>";
+			// echo ("Silhouette coefficient akhir = " . $final_si);
+			// echo "<br> Itung iseng count2 =" . $count2;
 
+			// echo "<hr>";
+			// echo "loop ke-".$loopke;					//cari tau berapa kali loop buat dapetin SSE 71%
+			// echo "<hr>";
 			// dd($final_si);
-
+			$loopke++;
 		} while ($final_si < 0.700);
-		// // // ========	=	=	=	==	=	=	=	=		=	==	 EndLOOP, BALIK KE LOOP TERATAS UNTUK DAPET SIL_CO >80%
+		// // // ========	=	=	=	==	=	=	=	=		=	==	 EndLOOP, BALIK KE LOOP TERATAS UNTUK DAPET SIL_CO >70%
+		// 80% kebanyakan, even 71% kebanyakan dan kelamaan. paling cepet dan feasible 70
 
+		// echo "<hr>";
+		// echo $selsimp;
+		// echo " ==> loop ke-" . $lpcnt;
+		// echo "<br> Itung iseng count1 =" . $count1;
+		// echo "<hr>";
+		// echo ("Silhouette coefficient akhir = " . $final_si);
+		// echo "<br> Itung iseng count2 =" . $count2;
+
+		// dd($sosa);
 
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 End
 
-		// $data = [
-		// 	'title'		=> 'Manage Data ClustInv',
-		// 	'heading' 	=> 'Manage Data Aplikasi Clustering Inventory Tlogomart',
-		// 	'data_model' => $tabel,
-		// 	'med1' 		=> $tampilloop[$lpcnt]['meds1'],
-		// 	'op_tabel'	=> $tampilloop[$lpcnt]['optable'],
-		// 	'tampilloop'=> $tampilloop[$lpcnt],
-		// 	'lpcnt' 	=> $lpcnt-1
-		// ];
-		// return view('manage_data/md_dash', $data);
+		$data = [
+			'title'		=> 'Manage Data ClustInv',
+			'heading' 	=> 'Manage Data Aplikasi Clustering Inventory Tlogomart',
+			'tab_ori' 	=> $tabel,
+			'med1' 		=> $tampilloop[$lpcnt]['meds1'],
+			'op_tabel'	=> $tampilloop[$lpcnt]['optable'],
+			'tampilloop' => $tampilloop[$lpcnt],
+			'selsimp'	=> $selsimp,		// selisih simpangan final penanda akhir penentuan cluster $selsimp ==> loop ke-" . $lpcnt;
+			'lpcnt' 	=> $lpcnt,
+			'loopke'	=> $loopke,			// loop nemuin sse value >70%
+			'sosa'		=> $sosa,
+			'final_si'	=> $final_si		// Sill co akhir
+		];
+		return view('manage_data/md_clustering', $data);
 	}
 }
 
