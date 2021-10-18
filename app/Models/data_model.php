@@ -6,9 +6,10 @@ use CodeIgniter\Model;
 
 class data_model extends Model
 {
-    protected $table         = 'samble';
-    protected $primarykey    = 'kode2';
+    // protected $table         = 'samble';        //proto's
+    // protected $primarykey    = 'kode2';
 
+    /************************************************CLUSTERING*************************************************/
     public function __construct()
     {
         parent::__construct();
@@ -49,7 +50,7 @@ class data_model extends Model
         // loop for penjualan
         for ($i = 0; $i < count($tabel); $i++) {
             $tabel[$i]['normjual'] =
-                ($tabel[$i]['terjual2'] - $maxminfj['minjual'])
+                ($tabel[$i]['terjual'] - $maxminfj['minjual'])
                 /
                 ($maxminfj['maxjual'] - $maxminfj['minjual']);
         }
@@ -57,7 +58,7 @@ class data_model extends Model
         // loop for frek
         for ($i = 0; $i < count($tabel); $i++) {
             $tabel[$i]['normfrek'] =
-                ($tabel[$i]['frek2'] - $maxminfj['minfrek'])
+                ($tabel[$i]['frek'] - $maxminfj['minfrek'])
                 /
                 ($maxminfj['maxfrek'] - $maxminfj['minfrek']);
         }
@@ -157,18 +158,6 @@ class data_model extends Model
         return array_values($arrclust);
     }
 
-    public function restitch($tab1, $tab2)  //match kode2 dan memindah a_i dari OPT wkwkkw, t1 tujuan, t2 asal (OPT)
-    {
-        for ($i = 0; $i < count($tab1); $i++) {
-            for ($j = 0; $j < count($tab2); $j++) {
-                // if ($tab2[$j]['kode2'] == $tab1[$i]['kode2']) {
-                if (in_array($tab2[$j]['kode2'], $$tab1)) {
-                    $tab1[$i]['a_i'] = $tab2[$i]['a_i'];
-                }
-            }
-        }
-    }
-
     public function sse_first($tabel)     //average intra cluster distance
     {
         # loop jarak antarelemen
@@ -176,9 +165,9 @@ class data_model extends Model
         for ($i = 0; $i < count($tabel); $i++) {
             for ($j = 0; $j < count($tabel); $j++) {
                 $tabel[$i]['a_i'] = sqrt(
-                    (($tabel[$i]['terjual2'] - $tabel[$j]['terjual2']) ** 2)
+                    (($tabel[$i]['terjual'] - $tabel[$j]['terjual']) ** 2)
                         +
-                        (($tabel[$i]['frek2'] - $tabel[$j]['frek2']) ** 2)
+                        (($tabel[$i]['frek'] - $tabel[$j]['frek']) ** 2)
                 )
                     / count($tabel);
             }
@@ -192,17 +181,17 @@ class data_model extends Model
         for ($i = 0; $i < count($cla); $i++) {
             for ($j = 0; $j < count($clb); $j++) {
                 $cla[$i]['jarakcl_b'] = sqrt(
-                    (($cla[$i]['terjual2'] - $clb[$j]['terjual2']) ** 2)
+                    (($cla[$i]['terjual'] - $clb[$j]['terjual']) ** 2)
                         +
-                        (($cla[$i]['frek2'] - $clb[$j]['frek2']) ** 2)
+                        (($cla[$i]['frek'] - $clb[$j]['frek']) ** 2)
                 )
                     / count($clb);
             }
             for ($k = 0; $k < count($clc); $k++) {
                 $cla[$i]['jarakcl_c'] = sqrt(
-                    (($cla[$i]['terjual2'] - $clc[$k]['terjual2']) ** 2)
+                    (($cla[$i]['terjual'] - $clc[$k]['terjual']) ** 2)
                         +
-                        (($cla[$i]['frek2'] - $clc[$k]['frek2']) ** 2)
+                        (($cla[$i]['frek'] - $clc[$k]['frek']) ** 2)
                 )
                     / count($clc);
             }
@@ -231,9 +220,15 @@ class data_model extends Model
     public function final_si($tabel)
     {
         for ($i = 0; $i < count($tabel); $i++) {
-            $final_si =+ $tabel[$i]['s_i'];
+            $final_si = +$tabel[$i]['s_i'];
         }
         $final_si = $final_si / count($tabel);
         return $final_si;
+    }
+    /************************************************CLUSTERING*************************************************/
+
+    public function insert_db($data)
+    {
+        # code...
     }
 }

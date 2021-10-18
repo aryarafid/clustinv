@@ -6,9 +6,10 @@ class Home extends BaseController
 {
 	public function index()
 	{
-		$data=[
-			'title'		=> 'Dashboard ClustInv',
-			'heading' 	=> 'Dashboard Aplikasi Clustering Inventory Tlogomart',
+		$data = [
+			'title'		=> 'Home Aplikasi Clustering Inventory Tlogomart',
+			'heading' 	=> 'Selamat Datang di Aplikasi Clustering Inventory Tlogomart.',
+
 		];
 		return view('home2', $data);
 	}

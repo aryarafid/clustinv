@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>/public/dist/css/adminlte.min.css">
+    <!-- JQ -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 </head>
 <!--
 `body` tag options:
@@ -63,7 +66,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link" style="text-align:center;">
+            <a href="<?= base_url(); ?>" class="brand-link" style="text-align:center;">
                 <!-- <img src="dist/img/AdminLTELogo.png" alt="ClustInv" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
                 <span class="brand-text font-weight-light">ClustInv</span>
             </a>
@@ -84,7 +87,7 @@
                             <a href="<?= base_url(); ?>" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Dashboard
+                                    Home
                                 </p>
                             </a>
                         </li>
@@ -92,7 +95,7 @@
                             <a href="<?= base_url() . "/Manage_data"; ?>" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Manage Data
+                                    Insert Data
                                 </p>
                             </a>
                         </li>
@@ -185,6 +188,8 @@
     <script src="<?= base_url(); ?>/public/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="<?= base_url(); ?>/public/dist/js/pages/dashboard3.js"></script>
+    <!-- bs-custom-file-input -->
+    <script src="<?= base_url(); ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
     <script>
         $(function() {
@@ -197,7 +202,16 @@
                 "autoWidth": false,
                 "responsive": true,
             });
+
+            // $('#datepicker1').daterangepicker();
+            // $('#datepicker2').daterangepicker();
+
         });
+
+        $(document).ready(function() {
+            bsCustomFileInput.init();
+        });
+
 
         // $('#my-card').CardWidget(options)
     </script>
