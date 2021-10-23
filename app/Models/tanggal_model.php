@@ -12,6 +12,8 @@ class tanggal_model extends Model
     protected $useAutoIncrement = true;
 
     protected $returnType     = 'array';
+    protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['start_date', 'end_date'];
+
+    protected $allowedFields = ['tanggal_id','start_date', 'end_date'];
 }

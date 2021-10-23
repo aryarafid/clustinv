@@ -79,8 +79,17 @@ class Manage_data extends BaseController
 				$worksheet[$i]["{$kolom_array[$j]}"] = $worksheet[$i]["{$j}"];
 
 				unset($worksheet[$i]["{$j}"]);
+				unset($worksheet[$i]["kms"]);
+				unset($worksheet[$i]["barcode"]);
+				unset($worksheet[$i]["struk"]);
+				unset($worksheet[$i]["laba_kotor"]);
+				unset($worksheet[$i]["hrg_jual"]);
+				unset($worksheet[$i]["netto"]);
+
 			}
 		}
+
+
 
 		// // Mengganti titik di kolom frek dan membagi dg 100  
 		for ($i = 0; $i < count($worksheet); $i++) {
@@ -104,134 +113,107 @@ class Manage_data extends BaseController
 	{
 		$tabel = $data['worksheet'];
 		$loopke = 0;
-		// // // ========	=	=	=	==	=	=	=	=		=	==	 start loop UNTUK DAPET SIL_CO >80%
-		do {
 
-			// // retrieve tabel as array
-			// $tabel = $this->data_model->findAll();
+		// // retrieve tabel as array
+		// $tabel = $this->data_model->findAll();
 
-			// // get maxmin tabel
-			$mjual = array_column($tabel, 'terjual');
-			$mfrek = array_column($tabel, 'frek');
+		// // get maxmin tabel
+		$mjual = array_column($tabel, 'terjual');
+		$mfrek = array_column($tabel, 'frek');
 
-			$maxminfj = array(
-				'maxjual' => max($mjual),
-				'maxfrek' => max($mfrek),
-				'minjual' => min($mjual),
-				'minfrek' => min($mfrek),
-			);
-
-			// // normalisasi
-			$tabel = $this->data_model->normalisasi($tabel, $maxminfj);
-
-			// // array kedua khusus utk operasi
-			$optable = array();
-			for ($i = 0; $i < count($tabel); $i++) {
-				$optable[$i]['kode']	 = $tabel[$i]['kode'];
-				$optable[$i]['nama_produk']	 = $tabel[$i]['nama_produk'];
-				$optable[$i]['terjual'] = $tabel[$i]['terjual'];
-				$optable[$i]['frek']	 = $tabel[$i]['frek'];
-				$optable[$i]['normfrek'] = $tabel[$i]['normfrek'];
-				$optable[$i]['normjual'] = $tabel[$i]['normjual'];
-
-				unset($tabel[$i]['normfrek']);
-				unset($tabel[$i]['normjual']);
-			}
-
-			// 	// // get medoid (ditaruh sini agar bisa randomized), hitung jarak, clusterisasi
-			$tampilloop = array();		//mother array utk proses kmedoids 
-			$transtab = array();
-			$jumsimp = 0;				//jumlah simpangan 
-			$lpcnt = 0;					//loop count
-			$selsimp = 0; 				//selisih simpangan
-
-			for ($i = 0; $i < 100; $i++) {
-				$tampilloop[$i] = [
-					'meds1' 	=> $meds1   = $this->data_model->getMedoidNorm($optable),
-					'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
-					'optable' 	=> $optable = $this->data_model->getSimpangan($optable),
-					'optable' 	=> $optable = $this->data_model->clustering($optable),
-					'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
-				];
-			}
-
-			// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
-			do {
-				$selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
-				$lpcnt++;
-			} while ($selsimp < 0);
-
-			// 	// 	// // // SSE PROCESS STARTS HERE
-			// 	// 	// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan SSE
-			for ($i = 0; $i < count($optable); $i++) {
-				$clustarray[$i] = [
-					'cluster' 	=> $optable[$i]['cluster'],
-					'kode' 		=> $optable[$i]['kode'],
-					'terjual'	=> $optable[$i]['terjual'],
-					'frek' 		=> $optable[$i]['frek'],
-				];
-			}
-
-			asort($clustarray);
-			$cl1 = $this->data_model->clust_array($clustarray, 1);
-			// array_values($cl1);
-			$cl2 = $this->data_model->clust_array($clustarray, 2);
-			// array_values($cl2);
-			$cl3 = $this->data_model->clust_array($clustarray, 3);
-			// array_values($cl3);
-
-			// 	// 	// // // ========	=	=	=	==	=	=	=	=		=	==	validasi SSE
-			$optable = $this->data_model->sse_first($optable);				// 1
-			$cl1 = $this->data_model->sse_scnd($cl1, $cl2, $cl3);			// 2
-			$cl2 = $this->data_model->sse_scnd($cl2, $cl1, $cl3);
-			$cl3 = $this->data_model->sse_scnd($cl3, $cl1, $cl2);
-			$tabfin = array_merge($cl1, $cl2, $cl3);
-
-			// 	// 	// // ========	=	=	=	==	=	=	=	=		=	==mindah ke tabfin dan sort untuk memudahkan proses akhir SSE
-			for ($i = 0; $i < count($optable); $i++) {
-				$transtab[$i] = [
-					'kode' 		=> $optable[$i]['kode'],
-					'cluster' 	=> $optable[$i]['cluster'],
-					'a_i' 		=> $optable[$i]['a_i'],
-				];
-			}
-
-			usort(
-				$transtab,
-				function (array $a, array $b) {
-					if ($a['cluster'] < $b['cluster']) {
-						return -1;
-					} else if ($a['cluster'] > $b['cluster']) {
-						return 1;
-					} else {
-						return 0;
-					};
-				}
-			);
-
-			for ($i = 0; $i < count($tabfin); $i++) {
-				$tabfin[$i]['kodeg'] 	= $transtab[$i]['kode'];
-				$tabfin[$i]['clusterg']	= $transtab[$i]['cluster'];
-				$tabfin[$i]['a_i'] 		= $transtab[$i]['a_i'];
-			}
-
-			// 	// // ========	=	=	=	==	=	=	=	=		=	==proses akhir SSE
-			$final_si = $this->data_model->s_i($tabfin);
-
-			// $final_si = number_format(($this->data_model->final_si($final_si)), 3, ',', '.');
-			$final_si = $this->data_model->final_si($final_si);
-
-			$loopke++;
-		} while (($final_si < 0.5)
-			|| ($final_si > 1)
+		$maxminfj = array(
+			'maxjual' => max($mjual),
+			'maxfrek' => max($mfrek),
+			'minjual' => min($mjual),
+			'minfrek' => min($mfrek),
 		);
 
+		// // normalisasi
+		$tabel = $this->data_model->normalisasi($tabel, $maxminfj);
 
-		// } while ($final_si < 0.700);
-		// } while ($final_si < 0.300);
+		// // array kedua khusus utk operasi
+		$optable = array();
+		for ($i = 0; $i < count($tabel); $i++) {
+			$optable[$i]['kode']	 = $tabel[$i]['kode'];
+			$optable[$i]['nama_produk']	 = $tabel[$i]['nama_produk'];
+			$optable[$i]['terjual'] = $tabel[$i]['terjual'];
+			$optable[$i]['frek']	 = $tabel[$i]['frek'];
+			$optable[$i]['normfrek'] = $tabel[$i]['normfrek'];
+			$optable[$i]['normjual'] = $tabel[$i]['normjual'];
 
-		// // // // ========	=	=	=	==	=	=	=	=		=	==	 EndLOOP, BALIK KE LOOP TERATAS UNTUK DAPET SIL_CO >70%
-		// // 80% kebanyakan, even 71% kebanyakan dan kelamaan. paling cepet dan feasible 51
+			unset($tabel[$i]['normfrek']);
+			unset($tabel[$i]['normjual']);
+		}
+
+		// 	// // get medoid (ditaruh sini agar bisa randomized), hitung jarak, clusterisasi
+		$tampilloop = array();		//mother array utk proses kmedoids 
+		$transtab = array();
+		$jumsimp = 0;				//jumlah simpangan 
+		$lpcnt = 0;					//loop count
+		$selsimp = 0; 				//selisih simpangan
+
+		for ($i = 0; $i < 100; $i++) {
+			$tampilloop[$i] = [
+				'meds1' 	=> $meds1   = $this->data_model->getMedoidNorm($optable),
+				'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
+				'optable' 	=> $optable = $this->data_model->getSimpangan($optable),
+				'optable' 	=> $optable = $this->data_model->clustering($optable),
+				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
+			];
+		}
+
+		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
+		do {
+			$selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
+			$lpcnt++;
+		} while ($selsimp < 0);
+
+
+		// 	// 	// // // // // //	=	=	=	==			= DBI PROCESS STARTS HERE
+		// 	// 	// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan DBI
+		for ($i = 0; $i < count($optable); $i++) {
+			$clustarray[$i] = [
+				'cluster' 	=> $optable[$i]['cluster'],
+				'kode' 		=> $optable[$i]['kode'],
+				'terjual'	=> $optable[$i]['terjual'],
+				'frek' 		=> $optable[$i]['frek'],
+			];
+		}
+
+		asort($clustarray);
+		$cl1 = $this->data_model->clust_array($clustarray, 1);		//separate per clusters
+		$cl2 = $this->data_model->clust_array($clustarray, 2);
+		$cl3 = $this->data_model->clust_array($clustarray, 3);
+
+		$centc1 = $this->data_model->centroid($cl1);		//get centroid per cluster
+		$centc2 = $this->data_model->centroid($cl2);
+		$centc3 = $this->data_model->centroid($cl3);
+
+		$ssw1 = $this->data_model->sswi($cl1, $centc1);		//jarak cluster ke centroid
+		$ssw2 = $this->data_model->sswi($cl2, $centc2);
+		$ssw3 = $this->data_model->sswi($cl3, $centc3);
+
+		$ssb12 = $this->data_model->ssbij($centc1, $centc2);	//jarak antar centroid
+		$ssb13 = $this->data_model->ssbij($centc1, $centc3);
+		$ssb23 = $this->data_model->ssbij($centc2, $centc3);
+
+		$r12 = $this->data_model->rij($ssw1, $ssb12);
+		$r13 = $this->data_model->rij($ssw2, $ssb13);
+		$r23 = $this->data_model->rij($ssw3, $ssb23);
+
+		$dbi = max($r12, $r13, $r23) / 3;
+
+		// echo "<pre>";
+		// print_r($r12);
+		// echo "<pre>";
+		// print_r($r13);
+		// echo "<pre>";
+		// print_r($r23);
+
+		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
+
+
+		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
 
 
 		// 	// // ========	=	=	=	==	=	=	=	= finishing, unset arrays, putting the clusters from transtab to $tabel
@@ -267,20 +249,23 @@ class Manage_data extends BaseController
 		unset($tabfin);
 		unset($fintr);
 
-		// echo "Medoid= ";
-		// echo "<pre>";
-		// var_dump($meds1);
+		echo "Medoid= ";
+		echo "<pre>";
+		d($meds1);
 
-		// echo ("<hr>");
-		// echo ("selisih simpangan= " . $selsimp);
+		echo ("<hr>");
+		echo ("selisih simpangan= " . $selsimp);
 
-		// echo ("<hr>");
-		// echo ("s[i] SSE= " . $final_si);
+		echo ("<hr>");
+		echo ("DBI= " . $dbi);
 
-		// dd($fintr);
-		// dd($tabel);
+		// d($fintr);
+		d($tabel);
 
-		$this->Rekap_data->insert_db($data);
+		// redirect();
+
+
+		// $this->Rekap_data->insert_db($data);
 
 		// // // ========	=	=	=	==	=	=	=	=		=	==	 End
 	}

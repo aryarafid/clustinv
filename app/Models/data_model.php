@@ -9,7 +9,7 @@ class data_model extends Model
     // protected $table         = 'samble';        //proto's
     // protected $primarykey    = 'kode2';
 
-    /************************************************CLUSTERING*************************************************/
+    /************************************************K MEDOIDS CLUSTERING*************************************************/
     public function __construct()
     {
         parent::__construct();
@@ -145,8 +145,11 @@ class data_model extends Model
         }
         return $sumSimpangan;
     }
+    /************************************************ENDCLUSTERING*************************************************/
 
-    public function clust_array($tabel, $cl) //masukin hasil clustering ke array biar gmpg hitung sse 2nd phase
+
+    /************************************************tinggalan SSE*************************************************/
+    public function clust_array($tabel, $cl)        //masukin hasil clustering ke array biar gmpg hitung sse 2nd phase
     {
         $arrclust = array();        // array baru isi rows bercluster $cl
 
@@ -157,75 +160,64 @@ class data_model extends Model
         }
         return array_values($arrclust);
     }
+    /************************************************ENDSSE*************************************************/
 
-    public function sse_first($tabel)     //average intra cluster distance
+
+    /************************************************DBI VALIDATION*************************************************/
+    public function centroid($cluster)
     {
-        # loop jarak antarelemen
-        $avg = 0;
-        for ($i = 0; $i < count($tabel); $i++) {
-            for ($j = 0; $j < count($tabel); $j++) {
-                $tabel[$i]['a_i'] = sqrt(
-                    (($tabel[$i]['terjual'] - $tabel[$j]['terjual']) ** 2)
-                        +
-                        (($tabel[$i]['frek'] - $tabel[$j]['frek']) ** 2)
-                )
-                    / count($tabel);
-            }
+        $tterjual = 0;
+        $tfrek = 0;
+        for ($i = 0; $i < count($cluster); $i++) {
+            $tterjual += $cluster[$i]['terjual'];
+
+            $tfrek += $cluster[$i]['frek'];
         }
-        return $tabel;
+        $tterjual = $tterjual / count($cluster);
+        $tfrek = $tfrek / count($cluster);
+
+        return $centroid = array(
+            'terjual' => $tterjual,
+            'frek' => $tfrek
+        );
     }
 
-    public function sse_scnd($cla, $clb, $clc)   //average inter cluster distance
+    public function sswi($cluster, $centroid)           //sswi , di dalamnya ada distance dr each data ke centroid
     {
-        // $clust = 1;
-        for ($i = 0; $i < count($cla); $i++) {
-            for ($j = 0; $j < count($clb); $j++) {
-                $cla[$i]['jarakcl_b'] = sqrt(
-                    (($cla[$i]['terjual'] - $clb[$j]['terjual']) ** 2)
-                        +
-                        (($cla[$i]['frek'] - $clb[$j]['frek']) ** 2)
-                )
-                    / count($clb);
-            }
-            for ($k = 0; $k < count($clc); $k++) {
-                $cla[$i]['jarakcl_c'] = sqrt(
-                    (($cla[$i]['terjual'] - $clc[$k]['terjual']) ** 2)
-                        +
-                        (($cla[$i]['frek'] - $clc[$k]['frek']) ** 2)
-                )
-                    / count($clc);
-            }
+        $db = \Config\Database::connect();
+
+        for ($i = 0; $i < count($cluster); $i++) {
+            // cluster - centroid
+            $sswi = +sqrt(
+                ($cluster[$i]['terjual'] - $centroid['terjual']) ** 2
+                    +
+                    ($cluster[$i]['frek'] - $centroid['frek']) ** 2
+            );
         }
-        for ($i = 0; $i < count($cla); $i++) {
-            (
-                ($cla[$i]['jarakcl_b'] > $cla[$i]['jarakcl_c']) ?
-                ($cla[$i]['b_i'] = $cla[$i]['jarakcl_c'])
-                : ($cla[$i]['b_i'] = $cla[$i]['jarakcl_b']));
-        }
-        return $cla;
+        $sswi = $sswi / count($cluster);
+        return $sswi;
     }
 
-    public function s_i($tabel)
+    public function ssbij($centroid1, $centroid2)       //jarak antar centroid
     {
-        for ($i = 0; $i < count($tabel); $i++) {
-            $tabel[$i]['s_i'] =
-                $tabel[$i]['a_i'] - $tabel[$i]['b_i'] /
-                max(
-                    array($tabel[$i]['a_i'] - $tabel[$i]['b_i'])
-                );
-        }
-        return $tabel;
+        // for ($i = 0; $i < count($centroid1); $i++) {
+        // cluster - centroid
+        $ssbij = +sqrt(
+            ($centroid1['terjual'] - $centroid2['terjual']) ** 2
+                +
+                ($centroid1['frek'] - $centroid2['frek']) ** 2
+        );
+        // };
+        return $ssbij;
     }
 
-    public function final_si($tabel)
+    public function rij($sswi, $ssbij)                  //ratio (+ L + yb better) cluster i & j
     {
-        for ($i = 0; $i < count($tabel); $i++) {
-            $final_si = +$tabel[$i]['s_i'];
-        }
-        $final_si = $final_si / count($tabel);
-        return $final_si;
+        $rij = 0;
+        return $rij = ($sswi + $sswi)/$ssbij;
     }
-    /************************************************CLUSTERING*************************************************/
+    /************************************************END DBI VALIDATION*************************************************/
+
 
     public function insert_db($data)
     {

@@ -15,7 +15,9 @@ class Rekap_data extends BaseController
 		$this->penjualan_model = new penjualan_model();
 		$this->produk_model = new produk_model();
 		$this->tanggal_model = new tanggal_model();
-
+		$this->db = \Config\Database::connect();
+		$builder = $this->db->table('users');
+		
 		// $this->load->library('session');
 	}
 
@@ -31,30 +33,38 @@ class Rekap_data extends BaseController
 
 	public function insert_db(
 		$data
-	)
-	{
+	) {
 		$tabel = $data['worksheet'];
-		
+
 		echo "<pre>";
 		print_r($data);
-		// dd($data);
 
-		// $dataPenjualan = [
+		$dataTanggal = [
+			"start_date" => $data['date1'],
+			"end_date" 	=> $data['date2'],
+		];
+		$this->tanggal_model->save($dataTanggal);
 
-		// ];
-		// $this->penjualan_model->insert($dataPenjualan);
+		$tanggal_id = $this->db->insertID();
+
+		
+		$dataPenjualan = [
+			// penjualan_id
+			"tanggal_id"	=> $tanggal_id,
+			"kode" 			=> $data['worksheet']['kode'],	//===========> harusnya sih keknya $data['worksheet'][???]['kode']
+			"nama_produk" 	=> $data['worksheet']['nama_produk'],
+			"terjual" 		=> $data['worksheet']['terjual'],
+			"frek" 			=> $data['worksheet']['frek'],
+		];
+		$this->penjualan_model->save($dataPenjualan);
 
 		// $dataProduk = [
-
+		// 	"kode" 			=> $tabel['kode'],
+		// 	"nama_produk" 	=> $tabel['nama_produk'],
 		// ];
 		// $this->produk_model->insert($dataProduk);
 
-		// $dataTanggal = [
-			
-		// ];
-		// $this->tanggal_model->insert($dataTanggal);
+		echo "HA GOTEEEM";
 
 	}
-
-
 }

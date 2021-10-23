@@ -13,5 +13,5 @@ class produk_model extends Model
 
     protected $returnType     = 'array';
 
-    protected $allowedFields = ['kode', 'nama_produk', 'kms', 'hrg_jual', 'netto', 'barcode'];
+    protected $allowedFields = ['kode', 'nama_produk', 'hrg_jual', 'netto'];
 }
