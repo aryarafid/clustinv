@@ -209,7 +209,7 @@ class Manage_data extends BaseController
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
 
-		// 	// // ========	=	=	=	==	=	=	=	= finishing, unset arrays, putting the clusters from transtab to $data['worksheet']
+		// 	// // ========	=	=	=	== finishing, unsetting arrays, putting the clusters from transtab to $data['worksheet']
 		$fintr = array();								//final transition table
 
 		for ($i = 0; $i < count($tabfin); $i++) {
@@ -217,7 +217,7 @@ class Manage_data extends BaseController
 			$fintr[$i]['cluster'] 	= $tabfin[$i]['cluster'];
 		}
 
-		usort(
+		usort(											//sort by kode
 			$fintr,
 			function (array $a, array $b) {
 				if ($a['kode'] < $b['kode']) {
@@ -230,7 +230,7 @@ class Manage_data extends BaseController
 			}
 		);
 
-		for ($i = 0; $i < count($data['worksheet']); $i++) {
+		for ($i = 0; $i < count($data['worksheet']); $i++) {					//kolom cluster dimasukin ke array data
 			$data['worksheet'][$i]['cluster'] 	= $fintr[$i]['cluster'];
 		}
 
@@ -242,7 +242,7 @@ class Manage_data extends BaseController
 		unset($tabfin);
 		unset($fintr);
 
-		// echo "Medoid= ";
+		// echo "Medoid= ";				//for testing purposes
 		// echo "<pre>";
 		// d($meds1);
 		// echo ("<hr>");
@@ -252,50 +252,46 @@ class Manage_data extends BaseController
 		// d($data['worksheet']);
 
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 Saving data to db and redirecting to rekap. 
-
 		$session = session();
-		$data2 = [
-			'id'		=> '21',
-			'message' 	=> 'Money',
-			'title'		=> 'Detail Rekap',
-			'heading' 	=> 'Detail Rekap',
+		$tgl_pencairan = date("Y-m-d H:i:s");				//datetimestamp input
+
+		$dataPenjualan = [									//insert tabel penjualan
+			// 
+			"timestamp_enterdata" => $tgl_pencairan,
+			"start_date" => $data['date1'],
+			"end_date" 	=> $data['date2'],
 		];
+		$this->penjualan_model->save($dataPenjualan);
 
-		// $this->session->setFlashdata('data2', $data2);
-		$session->set($data2);
+		$penjualan_id = $this->penjualan_model->insertID();		//get id penjualan dari tabel penjualan
 
-		return $this->response->redirect(site_url('Rekap_data/rekap_detail'),'refresh');
+		$builderRP = $this->db->table('rinc_penjualan');		//utk insert batch
 
-		
-		// echo view('rekap/rekap_detail', $data2);
+		for ($i = 0; $i < count($data['worksheet']); $i++) {			//insert tabel penjualan
+			# code...
+			// dd($data['worksheet'][$i]);	
+			$dataRincPenjualan[] = [
+				// 
+				'penjualan_id'	=> $penjualan_id,
+				'kode' 			=> $data['worksheet'][$i]['kode'],
+				'nama_produk' 	=> $data['worksheet'][$i]['nama_produk'],
+				'terjual' 		=> $data['worksheet'][$i]['terjual'],
+				'frek' 			=> $data['worksheet'][$i]['frek'],
+				'cluster'		=> $data['worksheet'][$i]['cluster'],
+			];
+		};
+		$builderRP->insertBatch($dataRincPenjualan);
+
+		$data = [										//pass data to rekap_data/rekap transition
+			'penjualan_id'	=> $penjualan_id,
+			'message' 		=> 'Money ',
+			'title'			=> 'Detail Rekap',
+			'heading' 		=> 'Detail Rekap',
+		];
+		$session->set($data);
+
+		return $this->response->redirect(site_url('Rekap_data/rekap_tr'), 'refresh');
 
 		exit;
-
-		// $builderRP = $this->db->table('rinc_penjualan');
-
-		// $dataPenjualan = [
-		// 	// 
-		// 	"start_date" => $data['date1'],
-		// 	"end_date" 	=> $data['date2'],
-		// ];
-		// $this->penjualan_model->save($dataPenjualan);
-
-		// $penjualan_id = $this->penjualan_model->insertID();
-
-		// for ($i = 0; $i < count($data['worksheet']); $i++) {
-		// 	# code...
-		// 	// dd($data['worksheet'][$i]);
-		// 	$dataRincPenjualan[] = [
-		// 		// 
-		// 		'penjualan_id'	=> $penjualan_id,
-		// 		'kode' 			=> $data['worksheet'][$i]['kode'],
-		// 		'nama_produk' 	=> $data['worksheet'][$i]['nama_produk'],
-		// 		'terjual' 		=> $data['worksheet'][$i]['terjual'],
-		// 		'frek' 			=> $data['worksheet'][$i]['frek'],
-		// 		'cluster'		=> $data['worksheet'][$i]['cluster'],
-		// 	];
-		// };
-		// $builderRP->insertBatch($dataRincPenjualan);
-
 	}
 }

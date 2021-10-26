@@ -14,6 +14,5 @@ class penjualan_model extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-
-    protected $allowedFields = ['start_date', 'end_date'];
+    protected $allowedFields = ['start_date', 'end_date', 'timestamp_enterdata'];
 }

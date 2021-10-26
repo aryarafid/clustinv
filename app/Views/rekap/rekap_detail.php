@@ -12,9 +12,9 @@
             <div class="col-lg">
 
                 <!-- tabel -->
-                <!-- <div class="card collapsed-card card-primary card-outline">
+                <div class="card collapsed-card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title"> Rekap Data <?php echo $id; ?> </h3>
+                        <h3 class="card-title"> Rekap Data <?php echo "ID data yang ditampilin di page ini= " . $penjualan_id; ?> </h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         </div>
@@ -24,7 +24,7 @@
                        
                     </div>
                     
-                </div> -->
+                </div>
 
             </div>
             <!-- /.col-md-6 -->

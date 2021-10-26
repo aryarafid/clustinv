@@ -17,4 +17,6 @@ class rinc_penjualan_model extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['penjualan_id', 'kode', 'nama_produk', 'terjual', 'frek', 'cluster'];
+
+    
 }
