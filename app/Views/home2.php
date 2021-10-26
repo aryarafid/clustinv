@@ -58,7 +58,7 @@
                         <h6 class="card-title text-center" style="flex-direction: column; ">Silakan mengklik tombol-tombol berikut untuk menuju ke menu masing-masing.</h6>
                         <p class="card-text"></p>
                         <a href="<?= base_url() . "/Manage_data"; ?>" class="btn btn-primary">Insert Data</a>
-                        <a href="#" class="btn btn-primary">Rekap Data</a>
+                        <a href="<?= base_url() . "/Rekap_data"; ?>" class="btn btn-primary">Rekap Data</a>
 
                     </div>
                 </div>

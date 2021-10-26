@@ -20,7 +20,7 @@ class Rekap_data extends BaseController
 
 		$session = session();
 		$this->sessdata =  $session->get();
-		$sessID = $this->sessdata->penjualan_id;
+		// $sessID = $this->sessdata->penjualan_id;
 
 		// $this->load->library('session');
 	}
@@ -28,26 +28,33 @@ class Rekap_data extends BaseController
 	public function index()
 	{
 		// show table dashboard 
-		// $data = [
-		// 	'title'		=> 'Rekap Data ',
-		// 	'heading' 	=> 'Dashboard Aplikasi Clustering Inventory Tlogomart',
-		// ];
-		// return view('home2', $data);
-		echo "yeah";
+		$data_penjualan = $this->penjualan_model->findAll();
+
+		$data = [
+			'title'		=> 'Dashboard Rekapitulasi Data Hasil Klasterisasi ',
+			'heading' 	=> 'Dashboard Rekapitulasi Data Hasil Klasterisasi',
+			'data_penjualan' => $data_penjualan
+		];
+		return view('rekap/rekap_dash', $data);
+		// echo "yeah";
 	}
 
-	public function rekap_tr($this->sessID = '')		//show rekap of $data, $id is included in $data
+	public function rekap_tr()		//show rekap of $data after inputting
 	{
-		// $session = \Config\Services::session();
-		$session = session();
-
+		// $penjualan_id = $this->session->userdata['data']['penjualan_id'];
 		// var_dump($session->message);
 
 		return view('rekap/rekap_detail', $this->sessdata);
 	}
 
-	public function rekap_detail(Type $var = null)
+	public function rekap_detail($id)		//detail rekap dari dashboard
 	{
 		# code...
 	}
+
+	public function delete_rekap($id)		//hapus data rekap
+	{
+		# code...
+	}
+	
 }

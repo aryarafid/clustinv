@@ -290,6 +290,7 @@ class Manage_data extends BaseController
 		];
 		$session->set($data);
 
+
 		return $this->response->redirect(site_url('Rekap_data/rekap_tr'), 'refresh');
 
 		exit;

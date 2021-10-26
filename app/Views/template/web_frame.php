@@ -41,25 +41,25 @@
             </ul>
 
             <!-- Right navbar links -->
-            <!-- <ul class="navbar-nav ml-auto"> -->
-            <!-- Navbar Search -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
 
-            <!-- Profile Icon -->
-            <!-- <li class="nav-item dropdown">
+                <!-- Profile Icon -->
+                <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-user"></i>
                         <i class="right fas fa-angle-down"></i>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <div class="dropdown-divider"></div>
+                        <!-- <div class="dropdown-divider"></div> -->
                         <a href="#" class="dropdown-item dropdown-footer">Log Out</a>
 
                     </div>
-                </li> -->
-            <!-- Notifications Dropdown Menu -->
+                </li>
+                <!-- Notifications Dropdown Menu -->
 
-            <!-- </ul> -->
+            </ul>
         </nav>
         <!-- /.navbar -->
 
@@ -100,7 +100,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url() . "/Rekap_data"; ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Rekapitulasi

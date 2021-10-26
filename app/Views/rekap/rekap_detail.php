@@ -1,5 +1,5 @@
 <!-- konten Rekap detail 1 id -->
-<?php $session = session() 
+<?php $session = session()
 ?>
 <?= $this->extend('template/web_frame') ?>
 
@@ -21,9 +21,51 @@
                     </div>
 
                     <div class="card-body">
-                       
+                        <table id="rekap_cluster" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <!-- <th>Nama</th> -->
+                                    <th>Penjualan</th>
+                                    <th>Frekuensi (%)</th>
+                                    <th> Normalisasi Penjualan </th>
+                                    <th> Normalisasi Frekuensi </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!-- loop tr td -->
+                                    <?php
+                                    foreach ($tab_ori as $to) {
+                                    ?>
+                                <tr>
+                                    <td> <?= $to['kode2']; ?> </td>
+                                    <!-- <td>  -->
+                                    <!-- <td> $md['nama'] missing -->
+                                    <!-- </td> -->
+                                    <td> <?= $to['terjual2']; ?> </td>
+                                    <td> <?= $to['frek2']; ?> </td>
+                                    <td> <?= $to['normjual']; ?> </td>
+                                    <td> <?= $to['normfrek']; ?> </td>
+
+                                </tr>
+                            <?php } ?>
+                            </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Kode</th>
+                                    <!-- <th>Nama</th> -->
+                                    <th>Penjualan</th>
+                                    <th>Frekuensi (%)</th>
+                                    <th> Normalisasi Penjualan </th>
+                                    <th> Normalisasi Frekuensi </th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    
+
                 </div>
 
             </div>
