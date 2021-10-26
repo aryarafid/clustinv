@@ -5,6 +5,8 @@ namespace App\Controllers;
 require 'vendor/autoload.php';
 
 use App\Models\data_model;
+use App\Models\penjualan_model;
+use App\Models\rinc_penjualan_model;
 
 use App\Controllers\Rekap_data;
 
@@ -21,6 +23,9 @@ class Manage_data extends BaseController
 	public function __construct()
 	{
 		$this->data_model = new data_model();
+		$this->penjualan_model = new penjualan_model();
+		$this->rinc_penjualan_model = new rinc_penjualan_model();
+		helper('url');
 		$this->Rekap_data = new Rekap_data();
 		// $this->load->library('session');
 	}
@@ -66,7 +71,6 @@ class Manage_data extends BaseController
 		);
 		// $rows = $worksheet->toArray();
 		$worksheet = array_values($worksheet);
-
 		$kolom_array = [
 			"kode", "nama_produk", "kms", "terjual", "hrg_jual", "netto", "laba_kotor", "struk", "frek", "barcode"
 		];
@@ -85,11 +89,8 @@ class Manage_data extends BaseController
 				unset($worksheet[$i]["laba_kotor"]);
 				unset($worksheet[$i]["hrg_jual"]);
 				unset($worksheet[$i]["netto"]);
-
 			}
 		}
-
-
 
 		// // Mengganti titik di kolom frek dan membagi dg 100  
 		for ($i = 0; $i < count($worksheet); $i++) {
@@ -111,15 +112,17 @@ class Manage_data extends BaseController
 
 	public function clustering($data)
 	{
-		$tabel = $data['worksheet'];
+		// $session = \Config\Services::session();
+
+		// $tabel = $data['worksheet'];
 		$loopke = 0;
 
 		// // retrieve tabel as array
-		// $tabel = $this->data_model->findAll();
+		// $data['worksheet'] = $this->data_model->findAll();
 
 		// // get maxmin tabel
-		$mjual = array_column($tabel, 'terjual');
-		$mfrek = array_column($tabel, 'frek');
+		$mjual = array_column($data['worksheet'], 'terjual');
+		$mfrek = array_column($data['worksheet'], 'frek');
 
 		$maxminfj = array(
 			'maxjual' => max($mjual),
@@ -129,20 +132,20 @@ class Manage_data extends BaseController
 		);
 
 		// // normalisasi
-		$tabel = $this->data_model->normalisasi($tabel, $maxminfj);
+		$data['worksheet'] = $this->data_model->normalisasi($data['worksheet'], $maxminfj);
 
 		// // array kedua khusus utk operasi
 		$optable = array();
-		for ($i = 0; $i < count($tabel); $i++) {
-			$optable[$i]['kode']	 = $tabel[$i]['kode'];
-			$optable[$i]['nama_produk']	 = $tabel[$i]['nama_produk'];
-			$optable[$i]['terjual'] = $tabel[$i]['terjual'];
-			$optable[$i]['frek']	 = $tabel[$i]['frek'];
-			$optable[$i]['normfrek'] = $tabel[$i]['normfrek'];
-			$optable[$i]['normjual'] = $tabel[$i]['normjual'];
+		for ($i = 0; $i < count($data['worksheet']); $i++) {
+			$optable[$i]['kode']	 = $data['worksheet'][$i]['kode'];
+			$optable[$i]['nama_produk']	 = $data['worksheet'][$i]['nama_produk'];
+			$optable[$i]['terjual'] = $data['worksheet'][$i]['terjual'];
+			$optable[$i]['frek']	 = $data['worksheet'][$i]['frek'];
+			$optable[$i]['normfrek'] = $data['worksheet'][$i]['normfrek'];
+			$optable[$i]['normjual'] = $data['worksheet'][$i]['normjual'];
 
-			unset($tabel[$i]['normfrek']);
-			unset($tabel[$i]['normjual']);
+			unset($data['worksheet'][$i]['normfrek']);
+			unset($data['worksheet'][$i]['normjual']);
 		}
 
 		// 	// // get medoid (ditaruh sini agar bisa randomized), hitung jarak, clusterisasi
@@ -203,20 +206,10 @@ class Manage_data extends BaseController
 
 		$dbi = max($r12, $r13, $r23) / 3;
 
-		// echo "<pre>";
-		// print_r($r12);
-		// echo "<pre>";
-		// print_r($r13);
-		// echo "<pre>";
-		// print_r($r23);
-
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
-
-
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
 
-
-		// 	// // ========	=	=	=	==	=	=	=	= finishing, unset arrays, putting the clusters from transtab to $tabel
+		// 	// // ========	=	=	=	==	=	=	=	= finishing, unset arrays, putting the clusters from transtab to $data['worksheet']
 		$fintr = array();								//final transition table
 
 		for ($i = 0; $i < count($tabfin); $i++) {
@@ -237,8 +230,8 @@ class Manage_data extends BaseController
 			}
 		);
 
-		for ($i = 0; $i < count($tabel); $i++) {
-			$tabel[$i]['cluster'] 	= $fintr[$i]['cluster'];
+		for ($i = 0; $i < count($data['worksheet']); $i++) {
+			$data['worksheet'][$i]['cluster'] 	= $fintr[$i]['cluster'];
 		}
 
 		unset($transtab);
@@ -249,27 +242,60 @@ class Manage_data extends BaseController
 		unset($tabfin);
 		unset($fintr);
 
-		echo "Medoid= ";
-		echo "<pre>";
-		d($meds1);
+		// echo "Medoid= ";
+		// echo "<pre>";
+		// d($meds1);
+		// echo ("<hr>");
+		// echo ("selisih simpangan= " . $selsimp);
+		// echo ("<hr>");
+		// echo ("DBI= " . $dbi);
+		// d($data['worksheet']);
 
-		echo ("<hr>");
-		echo ("selisih simpangan= " . $selsimp);
+		// // // // ========	=	=	=	==	=	=	=	=		=	==	 Saving data to db and redirecting to rekap. 
 
-		echo ("<hr>");
-		echo ("DBI= " . $dbi);
+		$session = session();
+		$data2 = [
+			'id'		=> '21',
+			'message' 	=> 'Money',
+			'title'		=> 'Detail Rekap',
+			'heading' 	=> 'Detail Rekap',
+		];
 
-		// d($fintr);
-		d($tabel);
+		// $this->session->setFlashdata('data2', $data2);
+		$session->set($data2);
 
-		// redirect();
+		return $this->response->redirect(site_url('Rekap_data/rekap_detail'),'refresh');
 
+		
+		// echo view('rekap/rekap_detail', $data2);
 
-		// $this->Rekap_data->insert_db($data);
+		exit;
 
-		// // // ========	=	=	=	==	=	=	=	=		=	==	 End
+		// $builderRP = $this->db->table('rinc_penjualan');
+
+		// $dataPenjualan = [
+		// 	// 
+		// 	"start_date" => $data['date1'],
+		// 	"end_date" 	=> $data['date2'],
+		// ];
+		// $this->penjualan_model->save($dataPenjualan);
+
+		// $penjualan_id = $this->penjualan_model->insertID();
+
+		// for ($i = 0; $i < count($data['worksheet']); $i++) {
+		// 	# code...
+		// 	// dd($data['worksheet'][$i]);
+		// 	$dataRincPenjualan[] = [
+		// 		// 
+		// 		'penjualan_id'	=> $penjualan_id,
+		// 		'kode' 			=> $data['worksheet'][$i]['kode'],
+		// 		'nama_produk' 	=> $data['worksheet'][$i]['nama_produk'],
+		// 		'terjual' 		=> $data['worksheet'][$i]['terjual'],
+		// 		'frek' 			=> $data['worksheet'][$i]['frek'],
+		// 		'cluster'		=> $data['worksheet'][$i]['cluster'],
+		// 	];
+		// };
+		// $builderRP->insertBatch($dataRincPenjualan);
+
 	}
-
-	// dilanjutkan di  rekap data beresta chartjs dll, semi crud masukin ke aja
-
 }
