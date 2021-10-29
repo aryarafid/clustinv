@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Login Admin | Aplikasi GBA</title>
+    <title> Login Admin </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,19 +19,20 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/public/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    
-    <?php $session = session();?>
+
+    <?php $session = session(); ?>
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box" style="margin-top: -15%;">
         <div class="login-logo">
-            <b>Aplikasi</b>GBA
+            <b>Clust</b>Inv
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg"><?= $session->getflashdata('msg'); ?>
+                <p class="login-box-msg">
+                    <?= $session->getflashdata('msg'); ?>
                 </p>
 
                 <form class="login-form" method="post" action="<?= base_url('auth/logger') ?>">
@@ -60,14 +61,14 @@
                         </div>
                     </div>
                 </form>
-                <hr>
-                <div class="row">
+                <!-- <hr> -->
+                <!-- <div class="row">
                     <div class="col-12">
                         <a href="<?= base_url(); ?>">
                             <button type="submit" class="btn btn-secondary btn-block">Cancel</button>
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <!-- /.login-card-body -->
         </div>

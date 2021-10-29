@@ -18,8 +18,8 @@ class Rekap_data extends BaseController
 		$this->db = \Config\Database::connect();
 		$builderRP = $this->db->table('rinc_penjualan');
 
-		$session = session();
-		$this->sessdata =  $session->get();
+		// $session = session();
+		// $this->sessdata =  $session->get();
 		// $sessID = $this->sessdata->penjualan_id;
 
 		// $this->load->library('session');
@@ -39,12 +39,42 @@ class Rekap_data extends BaseController
 		// echo "yeah";
 	}
 
-	public function rekap_tr()		//show rekap of $data after inputting
+	public function rekap_tr($id = 0)		//show rekap of $data after inputting
 	{
 		// $penjualan_id = $this->session->userdata['data']['penjualan_id'];
 		// var_dump($session->message);
+		$uri = service('uri');
 
-		return view('rekap/rekap_detail', $this->sessdata);
+		if ($uri->getSegment(2) == 'rekap_tr') {
+			$penjualan_ids  = $uri->getSegment(3);
+		};
+
+		$session = session();
+		$sessdata =  $session->get();
+		// print_r($sessdata['penjualan_id']);
+
+		if ($id = 0) {
+			$getbyID = $this->rinc_penjualan_model->selectbyid($sessdata['penjualan_id']);
+			$penjualan_id = $sessdata['penjualan_id'];
+		} else {
+			$penjualan_id = $penjualan_ids;
+
+			$getbyID = $this->rinc_penjualan_model->selectbyid($penjualan_id);
+		};
+
+		// echo $penjualan_id;
+		// exit;
+
+		// d($getbyID);
+
+		$data = [
+			'title'		=> 'Rekapitulasi Data Hasil Klasterisasi ',
+			'heading' 	=> 'Rekapitulasi Data Hasil Klasterisasi',
+			'tab_ori' => $getbyID,
+			'penjualan_id' => $penjualan_id,
+		];
+
+		return view('rekap/rekap_detail', $data);
 	}
 
 	public function rekap_detail($id)		//detail rekap dari dashboard
@@ -54,7 +84,12 @@ class Rekap_data extends BaseController
 
 	public function delete_rekap($id)		//hapus data rekap
 	{
-		# code...
+		$this->rinc_penjualan_model->cust_delete($id);
+		// echo "<script>alert('Data berhasil dihapus');
+		// window.location = '".base_url() . '/rekap_data'
+		
+		// </script>;
+        echo "<script>alert('Data berhasil dihapus');window.location = '".base_url() . '/rekap_data'."';</script>";
+
 	}
-	
 }

@@ -1,4 +1,6 @@
-<?php namespace App\Filters;
+<?php
+
+namespace App\Filters;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -9,7 +11,12 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-    //    $session = new Session();
+        // session()->destroy;
+        // if (session()->masuk == false) {
+		// // if (session->has('masuk') == FALSE) {
+        //     // return redirect()->to('/Auth');
+        //     return redirect()->to(site_url('Auth'));
+        // }
     }
 
     //--------------------------------------------------------------------

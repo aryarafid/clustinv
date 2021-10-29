@@ -45,14 +45,18 @@
                                     <td> <?= $dp['timestamp_enterdata']; ?> </td>
                                     <td>
                                         <a href="#">
-                                            <button type="button" class="btn btn-primary">
-                                                Detail Rekap
-                                            </button>
+                                            <a href="<?= base_url(); ?>/rekap_data/rekap_tr/<?=  $dp['penjualan_id']; ?>">
+                                                <button type="button" class="btn btn-primary">
+                                                    Detail Rekap
+                                                </button>
+                                            </a>
                                         </a>
                                         <a href="#">
-                                            <button type="button" class="btn btn-danger">
-                                                Hapus Data
-                                            </button>
+                                            <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?=  $dp['penjualan_id']; ?>">
+                                                <button type="button" class="btn btn-danger">
+                                                    Hapus Data
+                                                </button>
+                                            </a>
                                         </a>
                                     </td>
 

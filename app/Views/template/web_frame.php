@@ -1,3 +1,5 @@
+<?php $session = session(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,25 +43,39 @@
             </ul>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
+            <!-- <ul class="navbar-nav ml-auto"> -->
                 <!-- Navbar Search -->
 
                 <!-- Profile Icon -->
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-user"></i>
                         <i class="right fas fa-angle-down"></i>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"> -->
                         <!-- <div class="dropdown-divider"></div> -->
-                        <a href="#" class="dropdown-item dropdown-footer">Log Out</a>
+                        <!-- <a href="#" class="dropdown-item dropdown-footer">Log Out</a>
 
                     </div>
-                </li>
+                </li> -->
                 <!-- Notifications Dropdown Menu -->
 
+            <!-- </ul> -->
+            
+            <ul class="navbar-nav ml-auto">
+                <!-- Notifications Dropdown Menu -->
+                <?php if ($session->masuk == FALSE) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() . '/Auth'; ?>"> Login </a>
+                    </li>
+                <?php } elseif ($session->masuk == TRUE) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() . '/Auth/logout'; ?>"> Logout </a>
+                    </li>
+                <?php } ?>
             </ul>
+            
         </nav>
         <!-- /.navbar -->
 

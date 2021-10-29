@@ -40,4 +40,21 @@ class Validation
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------
+	public $logcheck = [
+		'username' => [
+			'rules' => 'required',
+		],
+		'password' => [
+			'rules' => 'required',
+		],
+	];
+
+	public $login_errors = [
+		'username' => [
+			'required' => '{field} Harus Diisi',
+		],
+		'password' => [
+			'required' => '{field} Harus Diisi',
+		],
+	];
 }

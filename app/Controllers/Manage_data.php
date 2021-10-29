@@ -27,6 +27,7 @@ class Manage_data extends BaseController
 		$this->rinc_penjualan_model = new rinc_penjualan_model();
 		helper('url');
 		$this->Rekap_data = new Rekap_data();
+		$this->session = session();
 		// $this->load->library('session');
 	}
 
@@ -104,9 +105,9 @@ class Manage_data extends BaseController
 			'worksheet' => $worksheet
 		];
 
-		echo "<pre>";
+		// echo "<pre>";
 
-		// print_r($data);
+		// d($data['worksheet']);
 		$this->clustering($data);
 	}
 
