@@ -55,6 +55,7 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 		$this->db = \Config\Database::connect();
+		$this->uri = service('uri');
 		ini_set('max_execution_time', 0); 
 		ini_set('memory_limit','2048M'); 
 	}

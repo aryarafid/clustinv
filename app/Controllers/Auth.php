@@ -35,6 +35,10 @@ class Auth extends PRouter
 		// 	'title'      => 'Login Admin ClustInv',
 		// 	// 'heading'    => 'Halaman untuk Memproses Data Penjualan',
 		// ];
+
+		if ($this->session->masuk == TRUE) {
+			return redirect()->to(base_url());
+		}
 		return view('loginview');
 	}
 

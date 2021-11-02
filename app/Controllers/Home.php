@@ -11,15 +11,15 @@ class Home extends BaseController
 
 	public function index()
 	{
-		if ($this->session->masuk == FALSE) {
-			$arr = [
-				'username'  => 'Guest',
-				// 'user_id' => '0',
-				'masuk' => FALSE
-			];
+		// if ($this->session->masuk == FALSE) {
+		// 	$arr = [
+		// 		'username'  => 'Guest',
+		// 		// 'user_id' => '0',
+		// 		'masuk' => FALSE
+		// 	];
 
-			$this->session->set($arr);
-		}
+		// 	$this->session->set($arr);
+		// }
 		
 		$data = [
 			'title'		=> 'Home Aplikasi Clustering Inventory Tlogomart',

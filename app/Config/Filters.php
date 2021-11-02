@@ -6,6 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
+use App\Filters\AuthFilter;
 
 class Filters extends BaseConfig
 {
@@ -33,7 +34,8 @@ class Filters extends BaseConfig
 		'before' => [
 			// 'honeypot',
 			// 'csrf',
-			'AuthFilter'
+			// 'AuthFilter' => ['except' => ['Auth/*']],
+			'AuthFilter' => ['except' => ['Auth', 'Auth/*']],
 		],
 		'after'  => [
 			'toolbar',
@@ -61,5 +63,7 @@ class Filters extends BaseConfig
 	 *
 	 * @var array
 	 */
-	public $filters = [];
+	public $filters = [
+		'AuthFilter' => ['before' => ['Home', 'Manage_data/*', 'Rekap_data/*']],
+	];
 }

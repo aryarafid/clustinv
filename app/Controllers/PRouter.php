@@ -21,9 +21,11 @@ class PRouter extends BaseController
     {
         $session = session();
 
-        if ($session->username != true) {
-            return redirect()->to('Auth');
-        }
+        // if ($session->username != true) {
+        //     return redirect()->to('Auth');
+        // }
+
+        
         $this->data_model = new data_model();
         $this->penjualan_model = new penjualan_model();
         $this->rinc_penjualan_model = new rinc_penjualan_model();

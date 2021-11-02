@@ -1,4 +1,7 @@
-<?php $session = session(); ?>
+<?php $session = session();
+$uri = service('uri');
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,25 +47,25 @@
 
             <!-- Right navbar links -->
             <!-- <ul class="navbar-nav ml-auto"> -->
-                <!-- Navbar Search -->
+            <!-- Navbar Search -->
 
-                <!-- Profile Icon -->
-                <!-- <li class="nav-item dropdown">
+            <!-- Profile Icon -->
+            <!-- <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-user"></i>
                         <i class="right fas fa-angle-down"></i>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"> -->
-                        <!-- <div class="dropdown-divider"></div> -->
-                        <!-- <a href="#" class="dropdown-item dropdown-footer">Log Out</a>
+            <!-- <div class="dropdown-divider"></div> -->
+            <!-- <a href="#" class="dropdown-item dropdown-footer">Log Out</a>
 
                     </div>
                 </li> -->
-                <!-- Notifications Dropdown Menu -->
+            <!-- Notifications Dropdown Menu -->
 
             <!-- </ul> -->
-            
+
             <ul class="navbar-nav ml-auto">
                 <!-- Notifications Dropdown Menu -->
                 <?php if ($session->masuk == FALSE) { ?>
@@ -75,7 +78,7 @@
                     </li>
                 <?php } ?>
             </ul>
-            
+
         </nav>
         <!-- /.navbar -->
 
@@ -100,23 +103,32 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>" class="nav-link ">
+
+                            <a href="<?= base_url(); ?>" class="nav-link <?= ($uri->getSegment(1) == '' ? 'active' : null) ?>">
+
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Home
                                 </p>
                             </a>
+
+
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() . "/Manage_data"; ?>" class="nav-link ">
+                            <a href="<?= base_url() . "/Manage_data"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Manage_data' ?
+                                                                                                'active' : null);
+                                                                                            ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Insert Data
                                 </p>
                             </a>
+
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() . "/Rekap_data"; ?>" class="nav-link">
+                            <a href="<?= base_url() . "/Rekap_data"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Rekap_data' ?
+                                                                                                'active' : null);
+                                                                                            ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Rekapitulasi

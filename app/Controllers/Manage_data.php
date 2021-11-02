@@ -62,6 +62,12 @@ class Manage_data extends BaseController
 		$writer = IOFactory::createWriter($spreadsheet, 'Html');
 		// $message = $writer->save('php://output');
 
+		$highestColumm = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
+		$highestRow = $spreadsheet->setActiveSheetIndex(0)->getHighestRow();
+
+		echo 'getHighestColumn() =  [' . $highestColumm . ']<br/>';
+		echo 'getHighestRow() =  [' . $highestRow . ']<br/>';
+
 		$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
 			"B4:{$coord}",     // The worksheet range that we want to retrieve
 			// "B35:J71",

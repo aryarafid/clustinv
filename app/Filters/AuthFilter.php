@@ -13,10 +13,20 @@ class AuthFilter implements FilterInterface
     {
         // session()->destroy;
         // if (session()->masuk == false) {
-		// // if (session->has('masuk') == FALSE) {
-        //     // return redirect()->to('/Auth');
-        //     return redirect()->to(site_url('Auth'));
+
+        // if (session()->has('masuk') == FALSE) {
+        //     //     // return redirect()->to('/Auth');
+
+        //     return redirect()->to(site_url('/Auth'));
         // }
+
+        if (!session()->get('masuk')) {
+            return redirect()->to(base_url('Auth'));
+        }
+
+        // $session = session();
+        // $sess = $session->get();
+        // var_dump($sess);
     }
 
     //--------------------------------------------------------------------
