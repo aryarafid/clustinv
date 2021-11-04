@@ -72,9 +72,9 @@ class Auth extends PRouter
 			// var_dump($sessData);
 
 			$this->session->set($userData);
-			echo "<script>alert('Berhasil masuk!');window.location = '" . base_url() . "';</script>";
-
-			// return redirect()->to(base_url());
+			// echo "<script>alert('Berhasil masuk!');window.location = '" . base_url() . "';</script>";
+			// echo "<script> toastr.info('Are you the 6 fingered man?') </script>";
+			return redirect()->to(base_url());
 		};
 		// } else {
 		// 	$this->session->setFlashdata('msg', 'User Tidak Ditemukan');

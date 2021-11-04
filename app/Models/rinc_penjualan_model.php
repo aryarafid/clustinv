@@ -35,4 +35,6 @@ class rinc_penjualan_model extends Model
         
         return $query;
     }
+
+  
 }

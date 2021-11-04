@@ -49,29 +49,18 @@ class Rekap_data extends BaseController
 			$penjualan_ids  = $uri->getSegment(3);
 		};
 
-		$session = session();
-		$sessdata =  $session->get();
-		// print_r($sessdata['penjualan_id']);
+		$getbyID = $this->rinc_penjualan_model->selectbyid($penjualan_ids);
+		$getDateTStamp = $this->penjualan_model->getDateTStamp($penjualan_ids);
 
-		if ($id = 0) {
-			$getbyID = $this->rinc_penjualan_model->selectbyid($sessdata['penjualan_id']);
-			$penjualan_id = $sessdata['penjualan_id'];
-		} else {
-			$penjualan_id = $penjualan_ids;
-
-			$getbyID = $this->rinc_penjualan_model->selectbyid($penjualan_id);
-		};
-
-		// echo $penjualan_id;
+		// d($getDateTStamp);
 		// exit;
-
-		// d($getbyID);
 
 		$data = [
 			'title'		=> 'Rekapitulasi Data Hasil Klasterisasi ',
 			'heading' 	=> 'Rekapitulasi Data Hasil Klasterisasi',
 			'tab_ori' => $getbyID,
-			'penjualan_id' => $penjualan_id,
+			'penjualan_id' => $penjualan_ids,
+			'getDateTStamp' => $getDateTStamp
 		];
 
 		return view('rekap/rekap_detail', $data);
@@ -87,9 +76,8 @@ class Rekap_data extends BaseController
 		$this->rinc_penjualan_model->cust_delete($id);
 		// echo "<script>alert('Data berhasil dihapus');
 		// window.location = '".base_url() . '/rekap_data'
-		
-		// </script>;
-        echo "<script>alert('Data berhasil dihapus');window.location = '".base_url() . '/rekap_data'."';</script>";
 
+		// </script>;
+		echo "<script>alert('Data berhasil dihapus');window.location = '" . base_url() . '/rekap_data' . "';</script>";
 	}
 }

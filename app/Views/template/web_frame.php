@@ -1,6 +1,5 @@
 <?php $session = session();
 $uri = service('uri');
-
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +18,20 @@ $uri = service('uri');
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>/public/dist/css/adminlte.min.css">
-    <!-- JQ -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- JQuery -->
+    <!-- Toastr modals -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+    <!-- DataTables -->
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/r-2.2.9/sc-2.0.5/sb-1.3.0/sp-1.4.0/datatables.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/fc-4.0.1/r-2.2.9/sc-2.0.5/sp-1.4.0/datatables.min.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/fc-4.0.1/r-2.2.9/sc-2.0.5/sp-1.4.0/datatables.min.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/sc-2.0.5/datatables.min.css" /> -->
+
+    <!-- <link rel="stylesheet" href="<?= base_url(); ?>/public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>/public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>/public/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"> -->
 
 </head>
 <!--
@@ -115,7 +126,7 @@ $uri = service('uri');
 
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() . "/Manage_data"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Manage_data' ?
+                            <a href="<?= base_url() . "/Manage_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Manage_data' ?
                                                                                                 'active' : null);
                                                                                             ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -126,7 +137,7 @@ $uri = service('uri');
 
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() . "/Rekap_data"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Rekap_data' ?
+                            <a href="<?= base_url() . "/Rekap_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Rekap_data' ?
                                                                                                 'active' : null);
                                                                                             ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -195,50 +206,77 @@ $uri = service('uri');
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <script src="<?= base_url(); ?>/public/plugins/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="<?= base_url(); ?>/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
-    <script src="<?= base_url(); ?>/public/dist/js/adminlte.js"></script>
+    <script src="<?php echo base_url(); ?>/public/dist/js/adminlte.js"></script>
     <!-- DataTables -->
-    <script src="<?= base_url(); ?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="<?= base_url(); ?>/public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/r-2.2.9/sc-2.0.5/sb-1.3.0/sp-1.4.0/datatables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/fc-4.0.1/r-2.2.9/sc-2.0.5/sp-1.4.0/datatables.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/fc-4.0.1/r-2.2.9/sc-2.0.5/sp-1.4.0/datatables.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/r-2.2.9/sc-2.0.5/datatables.min.js"></script> -->
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- OPTIONAL SCRIPTS -->
-    <script src="<?= base_url(); ?>/public/plugins/chart.js/Chart.min.js"></script>
+    <script src="<?php echo base_url(); ?>/public/plugins/chart.js/Chart.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="<?= base_url(); ?>/public/dist/js/demo.js"></script>
+    <script src="<?php echo base_url(); ?>/public/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="<?= base_url(); ?>/public/dist/js/pages/dashboard3.js"></script>
+    <script src="<?php echo base_url(); ?>/public/dist/js/pages/dashboard3.js"></script>
     <!-- bs-custom-file-input -->
-    <script src="<?= base_url(); ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script src="<?php echo base_url(); ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <script>
         $(function() {
-            $('#example2').DataTable({
-                "paging": true,
+            // $('#resp_table').DataTable({
+            //     "paging": true,
+            //     "lengthChange": false,
+            //     "searching": false,
+            //     "ordering": true,
+            //     "info": true,
+            //     "autoWidth": false,
+            //     "responsive": true,
+            // });
+            $('#resp_table').DataTable({
+                "scrollY": "100vh",
+                "scrollCollapse": true,
+
+                "paging": false,
+
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
             });
+            $(document).ready(function() {
+                $(".login-form").submit(function(e) {
+                    e.preventDefault(); // don't submit multiple times
+                    this.submit();
+                    toastr.success('Login berhasil.')
+                });
+            })
 
             // $('#datepicker1').daterangepicker();
             // $('#datepicker2').daterangepicker();
 
         });
 
-        $(document).ready(function() {
-            bsCustomFileInput.init();
-        });
+        // $(document).ready(function() {
+        //     bsCustomFileInput.init();
+        // });
 
 
         // $('#my-card').CardWidget(options)

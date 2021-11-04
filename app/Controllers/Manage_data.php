@@ -52,21 +52,22 @@ class Manage_data extends BaseController
 		$date1 = $this->request->getPost('datepicker1');
 		$date2 = $this->request->getPost('datepicker2');
 		// $filename = $file->getName();
-		$coord = $this->request->getPost('coord');
+		// $coord = $this->request->getPost('coord');
 		// );
-
-		// echo $coord;
-
+		
 		$reader = IOFactory::createReader('Xlsx');
 		$spreadsheet = $reader->load($file);
 		$writer = IOFactory::createWriter($spreadsheet, 'Html');
 		// $message = $writer->save('php://output');
 
-		$highestColumm = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
-		$highestRow = $spreadsheet->setActiveSheetIndex(0)->getHighestRow();
+		$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
+		$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow())-1;
+		
+		$coord = $highestColumn . "{$highestRow}";
+		// echo $coord;
 
-		echo 'getHighestColumn() =  [' . $highestColumm . ']<br/>';
-		echo 'getHighestRow() =  [' . $highestRow . ']<br/>';
+		// echo 'getHighestColumn() =  [' . $highestColumm . ']<br/>';
+		// echo 'getHighestRow() =  [' . $highestRow . ']<br/>';
 
 		$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
 			"B4:{$coord}",     // The worksheet range that we want to retrieve
@@ -82,7 +83,9 @@ class Manage_data extends BaseController
 			"kode", "nama_produk", "kms", "terjual", "hrg_jual", "netto", "laba_kotor", "struk", "frek", "barcode"
 		];
 
+
 		// print_r($kolom_array);
+		// exit;
 
 		for ($i = 0; $i < count($worksheet); $i++) {
 			// 	// $kolom_array = implode(" ",$kolom_array);
@@ -104,6 +107,9 @@ class Manage_data extends BaseController
 			$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
 			$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 		}
+
+		// dd($worksheet);
+
 
 		$data = [
 			'date1' => $date1,
@@ -258,6 +264,11 @@ class Manage_data extends BaseController
 		// echo ("DBI= " . $dbi);
 		// d($data['worksheet']);
 
+		// exit;
+
+		// $dbi = floatval(str_replace('.', ',', $dbi));
+		// $selsimp = floatval(str_replace('.', ',', $selsimp));
+
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 Saving data to db and redirecting to rekap. 
 		$session = session();
 		$tgl_pencairan = date("Y-m-d H:i:s");				//datetimestamp input
@@ -265,9 +276,14 @@ class Manage_data extends BaseController
 		$dataPenjualan = [									//insert tabel penjualan
 			// 
 			"timestamp_enterdata" => $tgl_pencairan,
-			"start_date" => $data['date1'],
-			"end_date" 	=> $data['date2'],
+			"start_date" 	=> $data['date1'],
+			"end_date" 		=> $data['date2'],
+			"dbi" 			=>  (string)($dbi),
+			"selisih_simpangan" => (string)($selsimp)
 		];
+
+		// dd($dataPenjualan);
+
 		$this->penjualan_model->save($dataPenjualan);
 
 		$penjualan_id = $this->penjualan_model->insertID();		//get id penjualan dari tabel penjualan
@@ -289,17 +305,13 @@ class Manage_data extends BaseController
 		};
 		$builderRP->insertBatch($dataRincPenjualan);
 
-		$data = [										//pass data to rekap_data/rekap transition
+		$fdata = [										//pass data to rekap_data/rekap transition
 			'penjualan_id'	=> $penjualan_id,
-			'message' 		=> 'Money ',
-			'title'			=> 'Detail Rekap',
-			'heading' 		=> 'Detail Rekap',
 		];
-		$session->set($data);
+		$session->setFlashdata($fdata);
 
+		return $this->response->redirect(site_url('Rekap_data'), 'refresh');
 
-		return $this->response->redirect(site_url('Rekap_data/rekap_tr'), 'refresh');
-
-		exit;
+		// exit;
 	}
 }

@@ -15,4 +15,12 @@ class penjualan_model extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['start_date', 'end_date', 'timestamp_enterdata'];
+
+    public function getDateTStamp($id)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('penjualan');
+        $query = $builder->getWhere(['penjualan_id' => $id]);
+        return $query->getResultArray();
+    }
 }

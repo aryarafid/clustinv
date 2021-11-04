@@ -100,7 +100,7 @@ use App\Controllers\Manage_data;
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputFile">File input</label>
+                                <label for="exampleInputFile">Input File Excel</label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="hidden" id="exampleInputFile" name="file_excel" accept=".xlsx " required>
@@ -109,7 +109,7 @@ use App\Controllers\Manage_data;
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="coord">Cell paling bawah kolom Frekuensi</label>
                                 <div class="col-4">
                                     <input type="text" class="form-control" placeholder="Cell..." name="coord" required>
@@ -117,7 +117,7 @@ use App\Controllers\Manage_data;
                                 <small id="coordlabel" class="form-text text-muted">
                                     Koordinat cell paling bawah kolom Frekuensi
                                 </small>
-                            </div>
+                            </div> -->
 
                         </div>
                         <!-- /.card-body -->

@@ -21,48 +21,54 @@
                     <!-- </div> -->
 
                     <div class="card-body">
-                        <table id="rekap_cluster" class="table table-bordered table-hover">
+                        <table id="resp_table" class="display table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>ID Penjualan</th>
                                     <th>Rentang Tanggal Awal</th>
                                     <th>Rentang Tanggal Akhir</th>
                                     <th>Waktu Memasukkan Data</th>
+                                    <th>Nilai Davies-Bouldin Index</th>
+                                    <th>Selisih Simpangan</th>
                                     <th>Aksi</th>
+
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <!-- loop tr td -->
-                                    <?php
-                                    foreach ($data_penjualan as $dp) {
-                                    ?>
-                                <tr>
-                                    <td> <?= $dp['penjualan_id']; ?> </td>
-                                    <td> <?= $dp['start_date']; ?> </td>
-                                    <td> <?= $dp['end_date']; ?> </td>
-                                    <td> <?= $dp['timestamp_enterdata']; ?> </td>
-                                    <td>
-                                        <a href="#">
-                                            <a href="<?= base_url(); ?>/rekap_data/rekap_tr/<?=  $dp['penjualan_id']; ?>">
-                                                <button type="button" class="btn btn-primary">
-                                                    Detail Rekap
-                                                </button>
-                                            </a>
-                                        </a>
-                                        <a href="#">
-                                            <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?=  $dp['penjualan_id']; ?>">
-                                                <button type="button" class="btn btn-danger">
-                                                    Hapus Data
-                                                </button>
-                                            </a>
-                                        </a>
-                                    </td>
+                                <!-- <tr> -->
+                                <!-- loop tr td -->
+                                <?php
+                                foreach ($data_penjualan as $dp) {
+                                ?>
+                                    <tr>
+                                        <td> <?= $dp['penjualan_id']; ?> </td>
+                                        <td> <?= $dp['start_date']; ?> </td>
+                                        <td> <?= $dp['end_date']; ?> </td>
+                                        <td> <?= $dp['timestamp_enterdata']; ?> </td>
+                                        <td> <?= $dp['dbi']; ?> </td>
+                                        <td> <?= $dp['selisih_simpangan']; ?> </td>
 
-                                </tr>
-                            <?php } ?>
-                            </tr>
+                                        <td>
+                                            <a href="#">
+                                                <a href="<?= base_url(); ?>/rekap_data/rekap_tr/<?= $dp['penjualan_id']; ?>">
+                                                    <button type="button" class="btn btn-primary">
+                                                        Detail Rekap
+                                                    </button>
+                                                </a>
+                                            </a>
+                                            <a href="#">
+                                                <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?= $dp['penjualan_id']; ?>">
+                                                    <button type="button" class="btn btn-danger">
+                                                        Hapus Data
+                                                    </button>
+                                                </a>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                <?php } ?>
+                                <!-- </tr> -->
 
                             </tbody>
 
