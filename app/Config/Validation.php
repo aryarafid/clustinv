@@ -57,4 +57,11 @@ class Validation
 			'required' => '{field} Harus Diisi',
 		],
 	];
+
+	public  $img_validation = [
+		'image' => [
+			'rules' => 'required',
+			'errors' => 'Harap memasukkan file dalam format .xlsx'
+		],
+	];
 }

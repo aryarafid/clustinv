@@ -44,55 +44,33 @@ class Auth extends PRouter
 
 	public function logger()
 	{
-		// if ($this->request->getPost()) {
 		$iusername = $this->request->getPost('username');
 		$ipassword = $this->request->getPost('password');
 
-		////		lakukan validasi untuk data yang di post
-		// $data = $this->request->getPost();
-		// $validate = $this->validation->run($data, 'logcheck');
-		// $errors = $this->validation->listErrors();
-
-		// if ($errors) {
-		// 	return view('loginview');
-		// }
-
-
-		// $user = $this->auth_model->q_login($username, $password);
-
-		// if ($user) {			//SALAH. USER ITU HARUSNYA RETRIEVE AKUN. INI BUAT UHHHH GIMANA YY       
-		if ($ipassword != $this->password) {
+		if (($iusername != $this->username) && ($ipassword != $this->password)) {
+			$this->session->setFlashdata('msg', 'Username & Password Salah');
+			return redirect()->to(base_url() . "/Auth");
+		} elseif ($iusername != $this->username) {
+			$this->session->setFlashdata('msg', 'Username Salah');
+			return redirect()->to(base_url() . "/Auth");
+		} elseif ($ipassword != $this->password) {
 			$this->session->setFlashdata('msg', 'Password Salah');
+			return redirect()->to(base_url() . "/Auth");
 		} else {
 			$userData = [
-				// 'username' => $iusername,
 				'masuk' => TRUE
 			];
-
-			// var_dump($sessData);
-
 			$this->session->set($userData);
-			// echo "<script>alert('Berhasil masuk!');window.location = '" . base_url() . "';</script>";
-			// echo "<script> toastr.info('Are you the 6 fingered man?') </script>";
 			return redirect()->to(base_url());
 		};
-		// } else {
-		// 	$this->session->setFlashdata('msg', 'User Tidak Ditemukan');
-		// }
-		// }
-		// return view('login_view');
 	}
 
 	public function logout()
 	{
 		if ($this->session->has('masuk') == TRUE) {
-			# code...
-
 			$this->session->destroy();
 
 			$userData = [
-				// 'username'  => 'Guest',
-				// 'user_id' => '0',
 				'masuk' => FALSE
 			];
 

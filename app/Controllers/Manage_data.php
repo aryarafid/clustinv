@@ -42,80 +42,91 @@ class Manage_data extends BaseController
 
 	public function olah_dokumen()			//upload dan olah xlsx pake phpspreadsheet, parameter-> (tanggal input , dokumen xlsx)
 	{
-		$file = $this->request->getFile('file_excel');
-
-		if (!$file->isValid()) {
-			throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
-		}
-
-		// $rett = array(
-		$date1 = $this->request->getPost('datepicker1');
-		$date2 = $this->request->getPost('datepicker2');
-		// $filename = $file->getName();
-		// $coord = $this->request->getPost('coord');
-		// );
-		
-		$reader = IOFactory::createReader('Xlsx');
-		$spreadsheet = $reader->load($file);
-		$writer = IOFactory::createWriter($spreadsheet, 'Html');
-		// $message = $writer->save('php://output');
-
-		$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
-		$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow())-1;
-		
-		$coord = $highestColumn . "{$highestRow}";
-		// echo $coord;
-
-		// echo 'getHighestColumn() =  [' . $highestColumm . ']<br/>';
-		// echo 'getHighestRow() =  [' . $highestRow . ']<br/>';
-
-		$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
-			"B4:{$coord}",     // The worksheet range that we want to retrieve
-			// "B35:J71",
-			NULL,        // Value that should be returned for empty cells
-			NULL,        // Should formulas be calculated (the equivalent of getCalculatedValue() for each cell)
-			NULL,        // Should values be formatted (the equivalent of getFormattedValue() for each cell)
-			NULL         // Should the array be indexed by cell row and cell column
-		);
-		// $rows = $worksheet->toArray();
-		$worksheet = array_values($worksheet);
-		$kolom_array = [
-			"kode", "nama_produk", "kms", "terjual", "hrg_jual", "netto", "laba_kotor", "struk", "frek", "barcode"
+		$rules = [
+			'file_excel' => [
+				'rules' => 'uploaded[file_excel]|max_size[file_excel,5000]|ext_in[file_excel,xlsx]'
+			],
 		];
 
+		// if (!$file->isValid()) {
+		// 	throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
+		// } else
+		if ($this->validate($rules)) {
+			$file = $this->request->getFile('file_excel');
+			// echo 'deez nuts';
+			// die;
+			
+			// $rett = array(
+			$date1 = $this->request->getPost('datepicker1');
+			$date2 = $this->request->getPost('datepicker2');
+			// $filename = $file->getName();
+			// $coord = $this->request->getPost('coord');
+			// );
 
-		// print_r($kolom_array);
-		// exit;
+			$reader = IOFactory::createReader('Xlsx');
+			$spreadsheet = $reader->load($file);
+			$writer = IOFactory::createWriter($spreadsheet, 'Html');
+			// $message = $writer->save('php://output');
 
-		for ($i = 0; $i < count($worksheet); $i++) {
-			// 	// $kolom_array = implode(" ",$kolom_array);
-			for ($j = 0; $j < count($kolom_array); $j++) {
-				$worksheet[$i]["{$kolom_array[$j]}"] = $worksheet[$i]["{$j}"];
+			$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
+			$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow()) - 1;
 
-				unset($worksheet[$i]["{$j}"]);
-				unset($worksheet[$i]["kms"]);
-				unset($worksheet[$i]["barcode"]);
-				unset($worksheet[$i]["struk"]);
-				unset($worksheet[$i]["laba_kotor"]);
-				unset($worksheet[$i]["hrg_jual"]);
-				unset($worksheet[$i]["netto"]);
+			$coord = $highestColumn . "{$highestRow}";
+			// echo $coord;
+
+			// echo 'getHighestColumn() =  [' . $highestColumm . ']<br/>';
+			// echo 'getHighestRow() =  [' . $highestRow . ']<br/>';
+
+			$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
+				"B4:{$coord}",     // The worksheet range that we want to retrieve
+				// "B35:J71",
+				NULL,        // Value that should be returned for empty cells
+				NULL,        // Should formulas be calculated (the equivalent of getCalculatedValue() for each cell)
+				NULL,        // Should values be formatted (the equivalent of getFormattedValue() for each cell)
+				NULL         // Should the array be indexed by cell row and cell column
+			);
+			// $rows = $worksheet->toArray();
+			$worksheet = array_values($worksheet);
+			$kolom_array = [
+				"kode", "nama_produk", "kms", "terjual", "hrg_jual", "netto", "laba_kotor", "struk", "frek", "barcode"
+			];
+
+
+			// print_r($kolom_array);
+			// exit;
+
+			for ($i = 0; $i < count($worksheet); $i++) {
+				// 	// $kolom_array = implode(" ",$kolom_array);
+				for ($j = 0; $j < count($kolom_array); $j++) {
+					$worksheet[$i]["{$kolom_array[$j]}"] = $worksheet[$i]["{$j}"];
+
+					unset($worksheet[$i]["{$j}"]);
+					unset($worksheet[$i]["kms"]);
+					unset($worksheet[$i]["barcode"]);
+					unset($worksheet[$i]["struk"]);
+					unset($worksheet[$i]["laba_kotor"]);
+					unset($worksheet[$i]["hrg_jual"]);
+					unset($worksheet[$i]["netto"]);
+				}
 			}
-		}
 
-		// // Mengganti titik di kolom frek dan membagi dg 100  
-		for ($i = 0; $i < count($worksheet); $i++) {
-			$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
-			$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
-		}
+			// // Mengganti titik di kolom frek dan membagi dg 100  
+			for ($i = 0; $i < count($worksheet); $i++) {
+				$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
+				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
+			}
 
-		// dd($worksheet);
+			// dd($worksheet);
 
 
-		$data = [
-			'date1' => $date1,
-			'date2' => $date2,
-			'worksheet' => $worksheet
-		];
+			$data = [
+				'date1' => $date1,
+				'date2' => $date2,
+				'worksheet' => $worksheet
+			];
+		} else {
+			$data['validation'] = $this->validator;
+		} 
 
 		// echo "<pre>";
 
@@ -219,6 +230,15 @@ class Manage_data extends BaseController
 
 		$dbi = max($r12, $r13, $r23) / 3;
 
+		$selsimp = round($selsimp, 6);
+		$dbi = round($dbi,6);
+
+		// echo $dbi;
+		// echo '<br>';
+		// echo $selsimp;
+		// die;
+		
+
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
 
@@ -278,8 +298,8 @@ class Manage_data extends BaseController
 			"timestamp_enterdata" => $tgl_pencairan,
 			"start_date" 	=> $data['date1'],
 			"end_date" 		=> $data['date2'],
-			"dbi" 			=>  (string)($dbi),
-			"selisih_simpangan" => (string)($selsimp)
+			"dbi" 			=> $dbi,
+			"selisih_simpangan" => $selsimp
 		];
 
 		// dd($dataPenjualan);

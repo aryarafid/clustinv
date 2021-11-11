@@ -53,14 +53,21 @@
                                             <a href="#">
                                                 <a href="<?= base_url(); ?>/rekap_data/rekap_tr/<?= $dp['penjualan_id']; ?>">
                                                     <button type="button" class="btn btn-primary">
-                                                        Detail Rekap
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
                                             </a>
                                             <a href="#">
-                                                <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?= $dp['penjualan_id']; ?>">
+                                                <button type="button" class="btn btn-success">
+                                                    <i class="far fa-edit"></i>
+                                                </button>
+                                            </a>
+                                            <a href="#">
+                                                <!-- <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?= $dp['penjualan_id']; ?>"> -->
+                                                <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?= $dp['penjualan_id']; ?>" 
+                                                onclick="return confirm('Yakin ingin menghapus data?');">
                                                     <button type="button" class="btn btn-danger">
-                                                        Hapus Data
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
                                             </a>
@@ -85,6 +92,15 @@
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<!-- confirm script -->
+<!-- <script>
+    function myFunction() {
+        confirm("Press a button!");
+    }
+    
+</script> -->
+
 
 
 <?= $this->endSection() ?>

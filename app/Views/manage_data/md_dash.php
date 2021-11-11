@@ -7,6 +7,9 @@ use App\Controllers\Manage_data;
 <?= $this->extend('template/web_frame') ?>
 
 <?= $this->section('content') ?>
+
+<?php $session = session(); ?>
+
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
@@ -100,14 +103,24 @@ use App\Controllers\Manage_data;
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputFile">Input File Excel</label>
+                                <label for="InputFile">Input File Excel</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="hidden" id="exampleInputFile" name="file_excel" accept=".xlsx " required>
-                                        <label for="exampleInputFile"></label>
+                                        <input type="file" class="hidden" id="InputFile" name="file_excel" accept=".xlsx " required>
+                                        <label for="InputFile"></label>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- <div class="form-group" style="color: red;">
+                            
+                                <span> Deez nuts </span>
+                            </div> -->
+
+                            <p class="login-box-msg" >
+                                <?= $session->getflashdata('msg'); ?>
+                            </p>
+
 
                             <!-- <div class="form-group">
                                 <label for="coord">Cell paling bawah kolom Frekuensi</label>

@@ -52,7 +52,11 @@ class Rekap_data extends BaseController
 		$getbyID = $this->rinc_penjualan_model->selectbyid($penjualan_ids);
 		$getDateTStamp = $this->penjualan_model->getDateTStamp($penjualan_ids);
 
-		// d($getDateTStamp);
+		$cl1 = $this->data_model->clust_array($getbyID, 1);
+		$cl2 = $this->data_model->clust_array($getbyID, 2);
+		$cl3 = $this->data_model->clust_array($getbyID, 3);
+
+		// dd($cl1);
 		// exit;
 
 		$data = [
@@ -60,8 +64,13 @@ class Rekap_data extends BaseController
 			'heading' 	=> 'Rekapitulasi Data Hasil Klasterisasi',
 			'tab_ori' => $getbyID,
 			'penjualan_id' => $penjualan_ids,
-			'getDateTStamp' => $getDateTStamp
+			'getDateTStamp' => $getDateTStamp,
+			'cl1' => $cl1,
+			'cl2' => $cl2,
+			'cl3' => $cl3,
 		];
+
+		// dd($data['tab_ori']);
 
 		return view('rekap/rekap_detail', $data);
 	}

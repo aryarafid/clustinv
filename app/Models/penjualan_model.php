@@ -14,7 +14,7 @@ class penjualan_model extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['start_date', 'end_date', 'timestamp_enterdata'];
+    protected $allowedFields = ['start_date', 'end_date', 'timestamp_enterdata', 'dbi', 'selisih_simpangan'];
 
     public function getDateTStamp($id)
     {

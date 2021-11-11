@@ -36,7 +36,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">
+                <p class="login-box-msg" style="color: red;">
                     <?= $session->getflashdata('msg'); ?>
                 </p>
 
