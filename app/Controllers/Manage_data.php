@@ -9,7 +9,7 @@ use App\Models\penjualan_model;
 use App\Models\rinc_penjualan_model;
 
 use App\Controllers\Rekap_data;
-
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\Strings\EchoedStringsSniff;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -37,7 +37,7 @@ class Manage_data extends BaseController
 			'title'		=> 'Insert Data ClustInv',
 			'heading'	=> 'Halaman untuk Memproses Data Penjualan',
 		];
-		return view('manage_data/md_dash', $data);
+		return view('manage_data/input_data', $data);
 	}
 
 	public function olah_dokumen()			//upload dan olah xlsx pake phpspreadsheet, parameter-> (tanggal input , dokumen xlsx)
@@ -55,10 +55,11 @@ class Manage_data extends BaseController
 			$file = $this->request->getFile('file_excel');
 			// echo 'deez nuts';
 			// die;
-			
+
 			// $rett = array(
-			$date1 = $this->request->getPost('datepicker1');
-			$date2 = $this->request->getPost('datepicker2');
+			// $date1 = $this->request->getPost('datepicker1');
+			// $date2 = $this->request->getPost('datepicker2');
+			$nama_alias = $this->request->getPost('nama_alias');
 			// $filename = $file->getName();
 			// $coord = $this->request->getPost('coord');
 			// );
@@ -67,6 +68,21 @@ class Manage_data extends BaseController
 			$spreadsheet = $reader->load($file);
 			$writer = IOFactory::createWriter($spreadsheet, 'Html');
 			// $message = $writer->save('php://output');
+
+			$date1 = $spreadsheet->getActiveSheet()->getCell('B2')->getFormattedValue();
+			$date2 = $spreadsheet->getActiveSheet()->getCell('D2')->getFormattedValue();
+			
+// 			$date1 = strtotime($date1);
+// // ymd
+// 			$date2 = strtotime($date2);
+
+			// var_dump($date1);
+			// echo '<br>';
+			// var_dump($date2);
+			// echo '<br>';
+			// var_dump($nama_alias);
+			// die;
+
 
 			$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
 			$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow()) - 1;
@@ -120,13 +136,14 @@ class Manage_data extends BaseController
 
 
 			$data = [
+				'nama_alias' => $nama_alias,
 				'date1' => $date1,
 				'date2' => $date2,
 				'worksheet' => $worksheet
 			];
 		} else {
 			$data['validation'] = $this->validator;
-		} 
+		}
 
 		// echo "<pre>";
 
@@ -231,13 +248,13 @@ class Manage_data extends BaseController
 		$dbi = max($r12, $r13, $r23) / 3;
 
 		$selsimp = round($selsimp, 6);
-		$dbi = round($dbi,6);
+		$dbi = round($dbi, 6);
 
 		// echo $dbi;
 		// echo '<br>';
 		// echo $selsimp;
 		// die;
-		
+
 
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
@@ -296,6 +313,7 @@ class Manage_data extends BaseController
 		$dataPenjualan = [									//insert tabel penjualan
 			// 
 			"timestamp_enterdata" => $tgl_pencairan,
+			"nama_alias"	=> $data['nama_alias'],
 			"start_date" 	=> $data['date1'],
 			"end_date" 		=> $data['date2'],
 			"dbi" 			=> $dbi,

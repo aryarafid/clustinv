@@ -8,14 +8,15 @@ use App\Controllers\Manage_data;
 
 <?= $this->section('content') ?>
 
-<?php $session = session(); ?>
+<?php $session = session(); 
+$validation =  \Config\Services::validation();?>
 
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- /.col-md-6 -->
-            <div class="col-3"></div>
+            <div class="col-2"></div>
 
 
             <div class="col-lg">
@@ -28,14 +29,15 @@ use App\Controllers\Manage_data;
                         <!-- <p class="card-text"> -->
                         <ol>
                             <li>
-                                Pengguna mengisi tanggal untuk
+                                Pengguna memasukkan alias nama data yang akan diproses guna memudahkan untuk mengenalinya pada 
+                                menu dashboard rekapitulasi data.
                             </li>
                             <li>
-                                Pengguna.....
+                                Pengguna mengupload file .xlsx pada tombol Browse. Pastikan data memiliki kolom Frekuensi. 
                             </li>
                             <li>
-                                Harap menunggu ....
-
+                                Pengguna mengklik tombol submit untuk memulai proses pengelompokan data. Hasil dapat dilihat di
+                                menu Rekapitulasi pada sidebar (menu samping).
                             </li>
                         </ol>
 
@@ -44,7 +46,7 @@ use App\Controllers\Manage_data;
                 </div>
             </div>
 
-            <div class="col-3"></div>
+            <div class="col-2"></div>
             <!-- /.col-md-6 -->
         </div>
 
@@ -56,27 +58,18 @@ use App\Controllers\Manage_data;
 
                 <!-- form -->
                 <div class="card card-primary card-outline mx-auto">
-                    <!-- <div class="card-header">
-                        <h1 class="card-title">Catatan: format tanggal -> bulan-hari-tahun</h3>
-                    </div> -->
-                    <!-- /.card-header -->
-
                     <!-- form start -->
 
                     <!-- <form method="post" action="<?= base_url(); ?>/data_idv/tambah_idv_aksi"> -->
                     <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/olah_dokumen">
 
-
                         <div class="card-body ">
 
+                            <div class="alert alert-danger alert-dismissible">
+                                <?php echo $validation->listErrors(); ?>
+                            </div>
 
-                            <!-- <div class="alert alert-danger alert-dismissible"> -->
-                            <?php // echo $validation->listErrors(); 
-                            ?>
-                            <!-- </div> -->
-
-
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="datepicker1">Range Tanggal Awal</label>
                                 <div class="input-group date" id="datepicker1" data-target-input="nearest">
                                     <input type="date" class="form-control datepicker-input" data-target="#datepicker1" name="datepicker1" />
@@ -87,10 +80,10 @@ use App\Controllers\Manage_data;
                                 <small id="datepicker2" class="form-text text-muted">
                                     Format tanggal: bulan-hari-tahun
                                 </small>
-                            </div>
+                            </div>  -->
 
-                            <div class="form-group">
-                                <label for="datepicker1">Range Tanggal Akhir</label>
+                            <!-- <div class="form-group"> -->
+                                <!-- <label for="datepicker1">Range Tanggal Akhir</label>
                                 <div class="input-group date" id="datepicker2" data-target-input="nearest">
                                     <input type="date" class="form-control datepicker-input" data-target="#datepicker2" name="datepicker2" />
                                     <div class="input-group-append" data-target="#datepicker1" data-toggle="datetimepicker">
@@ -99,10 +92,18 @@ use App\Controllers\Manage_data;
                                 </div>
                                 <small id="datepicker2" class="form-text text-muted">
                                     Format tanggal: bulan-hari-tahun
-                                </small>
-                            </div>
+                                </small> -->
+                            <!-- </div> -->
 
                             <div class="form-group">
+                                <label for="alias">Nama File Baru</label>
+                                <input class="form-control" type="text" placeholder="Default input" name="nama_alias" required>
+                                <!-- <small id="nama_alias" class="form-text text-muted">
+                                    Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
+                                </small> -->
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 0px;">
                                 <label for="InputFile">Input File Excel</label>
                                 <div class="input-group">
                                     <div class="custom-file">
@@ -110,30 +111,16 @@ use App\Controllers\Manage_data;
                                         <label for="InputFile"></label>
                                     </div>
                                 </div>
+                                <!-- <small id="file_excel" class="form-text text-muted">
+                                    Pastikan file memiliki kolom Frekuensi.
+                                </small> -->
                             </div>
 
-                            <!-- <div class="form-group" style="color: red;">
-                            
-                                <span> Deez nuts </span>
-                            </div> -->
-
-                            <p class="login-box-msg" >
-                                <?= $session->getflashdata('msg'); ?>
-                            </p>
-
-
-                            <!-- <div class="form-group">
-                                <label for="coord">Cell paling bawah kolom Frekuensi</label>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" placeholder="Cell..." name="coord" required>
-                                </div>
-                                <small id="coordlabel" class="form-text text-muted">
-                                    Koordinat cell paling bawah kolom Frekuensi
-                                </small>
-                            </div> -->
+                            <!-- <hr> -->
 
                         </div>
                         <!-- /.card-body -->
+
 
                         <div class="card-footer">
                             <!-- <a href="<?= base_url(); ?>/Manage_data/olah_dokumen"> -->
