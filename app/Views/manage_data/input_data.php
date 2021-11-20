@@ -65,9 +65,9 @@ $validation =  \Config\Services::validation();?>
 
                         <div class="card-body ">
 
-                            <div class="alert alert-danger alert-dismissible">
-                                <?php echo $validation->listErrors(); ?>
-                            </div>
+                            <!-- <div class="alert alert-danger alert-dismissible"> -->
+                                <?php // echo $validation->listErrors(); ?>
+                            <!-- </div> -->
 
                             <!-- <div class="form-group">
                                 <label for="datepicker1">Range Tanggal Awal</label>

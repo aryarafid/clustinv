@@ -25,16 +25,20 @@ class rinc_penjualan_model extends Model
         return $query->getResultArray();
     }
 
+    public function selectbyidcl($id, $cluster)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('rinc_penjualan');
+        $query = $builder->getWhere(['penjualan_id' => $id, 'cluster' => $cluster]);
+        return $query->getResultArray();
+    }
+
     public function cust_delete($id)            //custom delete
     {
         $db      = \Config\Database::connect();
         $builder = $db->table('rinc_penjualan');
         $builder = $db->table('penjualan');
         $query = $builder->delete(['penjualan_id' => $id]);
-        
-        
         return $query;
     }
-
-  
 }

@@ -51,24 +51,24 @@
             <!-- /.col-md-6 -->
         </div>
 
-        <div class="row">
+        <!-- <div class="row"> -->
             <!-- /.col-md-6 -->
-            <div class="col-2"></div>
+            <!-- <div class="col-2"></div>
             <div class="col-8">
-                <div class="card card-primary card-outline">
+                <div class="card card-primary card-outline"> -->
                     <!-- <div class="card-header">
                         <h5 class="m-0">Featured</h5>
                     </div> -->
-                    <div class="card-body text-center">
+                    <!-- <div class="card-body text-center">
                         <h6 class="card-title text-center" style="flex-direction: column; ">
                             Silakan mengklik tombol-tombol pada sidebar untuk menuju ke menu masing-masing.</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-2"></div>
+            <div class="col-2"></div> -->
 
             <!-- /.col-md-6 -->
-        </div>
+        <!-- </div> -->
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>

@@ -248,26 +248,67 @@ $uri = service('uri');
             //     "autoWidth": false,
             //     "responsive": true,
             // });
-            $('#resp_table').DataTable({
-                "scrollY": "100vh",
-                "scrollCollapse": true,
-
-                "paging": false,
-
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
             $(document).ready(function() {
-                $(".login-form").submit(function(e) {
-                    e.preventDefault(); // don't submit multiple times
-                    this.submit();
-                    toastr.success('Login berhasil.')
-                });
-            })
+                $('#resp_table').DataTable({
+                    "scrollY": "100vh",
+                    "scrollCollapse": true,
+
+                    "paging": false,
+
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                }),
+                $('#resp_table1').DataTable({
+                    "scrollY": "100vh",
+                    "scrollCollapse": true,
+
+                    "paging": false,
+
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                }),
+                $('#resp_table2').DataTable({
+                    "scrollY": "100vh",
+                    "scrollCollapse": true,
+
+                    "paging": false,
+
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                }),
+                $('#resp_table3').DataTable({
+                    "scrollY": "100vh",
+                    "scrollCollapse": true,
+
+                    "paging": false,
+
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                })
+            });
+            // $(document).ready(function() {
+            //     $(".login-form").submit(function(e) {
+            //         e.preventDefault(); // don't submit multiple times
+            //         this.submit();
+            //         toastr.success('Login berhasil.')
+            //     });
+            // })
 
             // $('#datepicker1').daterangepicker();
             // $('#datepicker2').daterangepicker();

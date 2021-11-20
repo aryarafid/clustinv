@@ -70,11 +70,21 @@ class Manage_data extends BaseController
 			// $message = $writer->save('php://output');
 
 			$date1 = $spreadsheet->getActiveSheet()->getCell('B2')->getFormattedValue();
+			$date1 = strtotime($date1);
+			$date1 = date('Y-m-d', $date1);
+
+			// echo $newformat;
+
+			// die;
+			// 2003-10-16
+
 			$date2 = $spreadsheet->getActiveSheet()->getCell('D2')->getFormattedValue();
-			
-// 			$date1 = strtotime($date1);
-// // ymd
-// 			$date2 = strtotime($date2);
+			$date2 = strtotime($date2);
+			$date2 = date('Y-m-d', $date2);
+
+			// 			$date1 = strtotime($date1);
+			// // ymd
+			// 			$date2 = strtotime($date2);
 
 			// var_dump($date1);
 			// echo '<br>';

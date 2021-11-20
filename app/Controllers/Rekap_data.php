@@ -56,6 +56,10 @@ class Rekap_data extends BaseController
 		$cl2 = $this->data_model->clust_array($getbyID, 2);
 		$cl3 = $this->data_model->clust_array($getbyID, 3);
 
+		$cl11 = $this->data_model->clust_array($getbyID, 1);
+		$cl22 = $this->data_model->clust_array($getbyID, 2);
+		$cl33 = $this->data_model->clust_array($getbyID, 3);
+
 		// dd($cl1);
 		// exit;
 
@@ -68,6 +72,9 @@ class Rekap_data extends BaseController
 			'cl1' => $cl1,
 			'cl2' => $cl2,
 			'cl3' => $cl3,
+			'cl11' => $cl11,
+			'cl22' => $cl22,
+			'cl33' => $cl33,
 		];
 
 		// dd($data['tab_ori']);
