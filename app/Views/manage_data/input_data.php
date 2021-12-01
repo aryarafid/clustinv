@@ -8,8 +8,8 @@ use App\Controllers\Manage_data;
 
 <?= $this->section('content') ?>
 
-<?php $session = session(); 
-$validation =  \Config\Services::validation();?>
+<?php $session = session();
+$validation =  \Config\Services::validation(); ?>
 
 <!-- Main content -->
 <div class="content">
@@ -29,11 +29,17 @@ $validation =  \Config\Services::validation();?>
                         <!-- <p class="card-text"> -->
                         <ol>
                             <li>
-                                Pengguna memasukkan alias nama data yang akan diproses guna memudahkan untuk mengenalinya pada 
+                                Pengguna memasukkan alias nama data yang akan diproses guna memudahkan untuk mengenalinya pada
                                 menu dashboard rekapitulasi data.
+                                <ul>
+                                    <li>
+                                        Misal data penjualan bulan Agustus, di kolom input dapat ditulis
+                                        "Data Agustus" atau "Bulan 8" dan sebagainya.
+                                    </li>
+                                </ul>
                             </li>
                             <li>
-                                Pengguna mengupload file .xlsx pada tombol Browse. Pastikan data memiliki kolom Frekuensi. 
+                                Pengguna mengupload file .xlsx pada tombol Browse. Pastikan data memiliki kolom Frekuensi.
                             </li>
                             <li>
                                 Pengguna mengklik tombol submit untuk memulai proses pengelompokan data. Hasil dapat dilihat di
@@ -66,38 +72,13 @@ $validation =  \Config\Services::validation();?>
                         <div class="card-body ">
 
                             <!-- <div class="alert alert-danger alert-dismissible"> -->
-                                <?php // echo $validation->listErrors(); ?>
-                            <!-- </div> -->
-
-                            <!-- <div class="form-group">
-                                <label for="datepicker1">Range Tanggal Awal</label>
-                                <div class="input-group date" id="datepicker1" data-target-input="nearest">
-                                    <input type="date" class="form-control datepicker-input" data-target="#datepicker1" name="datepicker1" />
-                                    <div class="input-group-append" data-target="#datepicker1" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                                <small id="datepicker2" class="form-text text-muted">
-                                    Format tanggal: bulan-hari-tahun
-                                </small>
-                            </div>  -->
-
-                            <!-- <div class="form-group"> -->
-                                <!-- <label for="datepicker1">Range Tanggal Akhir</label>
-                                <div class="input-group date" id="datepicker2" data-target-input="nearest">
-                                    <input type="date" class="form-control datepicker-input" data-target="#datepicker2" name="datepicker2" />
-                                    <div class="input-group-append" data-target="#datepicker1" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                                <small id="datepicker2" class="form-text text-muted">
-                                    Format tanggal: bulan-hari-tahun
-                                </small> -->
+                            <?php // echo $validation->listErrors(); 
+                            ?>
                             <!-- </div> -->
 
                             <div class="form-group">
                                 <label for="alias">Nama File Baru</label>
-                                <input class="form-control" type="text" placeholder="Default input" name="nama_alias" required>
+                                <input class="form-control" type="text" placeholder="Nama Alias Data" name="nama_alias" required>
                                 <!-- <small id="nama_alias" class="form-text text-muted">
                                     Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
                                 </small> -->

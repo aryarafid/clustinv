@@ -22,8 +22,8 @@ class Home extends BaseController
 		// }
 		
 		$data = [
-			'title'		=> 'Home Aplikasi Clustering Inventory Tlogomart',
-			'heading' 	=> 'Selamat Datang di Aplikasi Clustering Inventory Tlogomart.',
+			'title'		=> 'Home Aplikasi Clustering Barang Tlogomart',
+			'heading' 	=> 'Selamat Datang di Aplikasi Clustering Barang Tlogomart.',
 		];
 		return view('home2', $data);
 	}

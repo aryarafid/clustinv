@@ -33,6 +33,19 @@ class rinc_penjualan_model extends Model
         return $query->getResultArray();
     }
 
+    public function changeAlias($id, $alias)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('penjualan');
+        // $query = $builder->getWhere(['penjualan_id' => $id, 'cluster' => $cluster]);
+        $data = [
+            'nama_alias' => $alias,
+        ];
+        $builder->where('penjualan_id', $id);
+        $query = $builder->update($data);
+        return $query;
+    }
+
     public function cust_delete($id)            //custom delete
     {
         $db      = \Config\Database::connect();

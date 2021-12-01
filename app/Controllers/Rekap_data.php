@@ -82,18 +82,17 @@ class Rekap_data extends BaseController
 		return view('rekap/rekap_detail', $data);
 	}
 
-	public function rekap_detail($id)		//detail rekap dari dashboard
+	public function editAlias($id)
 	{
-		# code...
+		$nama_alias = $this->request->getPost('nama_alias');
+		$this->rinc_penjualan_model->changeAlias($id, $nama_alias);
+		echo "<script>alert('Data berhasil diedit');window.location = '" . base_url() . '/rekap_data' . "';</script>";
+
 	}
 
 	public function delete_rekap($id)		//hapus data rekap
 	{
 		$this->rinc_penjualan_model->cust_delete($id);
-		// echo "<script>alert('Data berhasil dihapus');
-		// window.location = '".base_url() . '/rekap_data'
-
-		// </script>;
 		echo "<script>alert('Data berhasil dihapus');window.location = '" . base_url() . '/rekap_data' . "';</script>";
 	}
 }

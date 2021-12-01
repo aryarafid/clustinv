@@ -21,25 +21,49 @@
                         <ol>
                             <li>
                                 Aplikasi ini digunakan untuk mengelompokkan data penjualan minimarket Tlogomart menjadi
-                                tiga kelompok: Laku, Sedang, dan Tidak Laku.
+                                tiga kelompok/<b>cluster</b>: Laku, Sedang, dan Tidak Laku.
                             </li>
                             <li>
-                                Clustering atau kegiatan pengelompokan menggunakan metode clustering algoritma K-Medoids.
+                                Clustering atau kegiatan pengelompokan menggunakan metode clustering algoritma bernama
+                                <b>K-Medoids</b>.
                                 <ul>
                                     <li>
-
-                                        Berdasarkan pada data jumlah barang yang
-                                        terjual dan persentase Frekuensi pada data penjualan dalam rentang waktu yang telah ditentukan.
+                                        Berdasarkan pada <b>
+                                            data jumlah barang yang terjual
+                                        </b>
+                                        dan
+                                        <b>
+                                            persentase Frekuensi pada data penjualan
+                                        </b>
+                                        dalam rentang waktu yang telah ditentukan.
                                     </li>
                                 </ul>
                             </li>
 
                             <li>
-                                Algoritma PAM (Partioning Around Medoids) atau biasa juga disebut dengan algoritma KMedoids, merupakan
-                                algoritma yang diwakili oleh cluster berupa medoid (Kamila et al, 2019). Perbedaan antara algoritma K-Medoids
-                                dengan slgoritma K-Means yaitu K-Medoids menggunakan objek sebagai perwakilan (medoid) pusat cluster untuk
-                                tiap cluster, sementara algoritma K-Means membutuhkan nilai rata-rata (mean) sebagai pusat cluster
-                                <br>
+                                Urutan langkah algoritma K-Medoids adalah sebagai berikut.
+                                <ol>
+                                    <li>
+                                        Inisialisasikan pusat cluster sebanyak jumlah cluster (k).
+                                    </li>
+                                    <li>
+                                        Setiap data atau objek dialokasikan ke cluster terdekat dan dihitung jaraknya.
+                                    </li>
+                                    <li>
+                                        Pilih objek pada masing-masing cluster secara acak sebagai kandidat medoid baru.
+                                    </li>
+                                    <li>
+                                        Hitung jarak setiap objek yang terdapat pada masing-masing cluster dengan calon medoid baru.
+                                    </li>
+                                    <li>
+                                        Hitung total simpangan (S) dengan menghitung nilai total jarak baru – total jarak lama. 
+                                        Jika didapatkan S < 0, tukarlah objek dengan data cluster untuk membuat sekumpulan k objek baru sebagai medoid. </li>
+                                    <li>
+                                        Ulangi langkah 3 sampai dengan 5 hingga tidak terjadi perubahan medoid, sehingga diperoleh cluster 
+                                        serta anggota cluster masing-masing.
+                                    </li>
+                                </ol>
+
                             </li>
                         </ol>
 
@@ -52,14 +76,14 @@
         </div>
 
         <!-- <div class="row"> -->
-            <!-- /.col-md-6 -->
-            <!-- <div class="col-2"></div>
+        <!-- /.col-md-6 -->
+        <!-- <div class="col-2"></div>
             <div class="col-8">
                 <div class="card card-primary card-outline"> -->
-                    <!-- <div class="card-header">
+        <!-- <div class="card-header">
                         <h5 class="m-0">Featured</h5>
                     </div> -->
-                    <!-- <div class="card-body text-center">
+        <!-- <div class="card-body text-center">
                         <h6 class="card-title text-center" style="flex-direction: column; ">
                             Silakan mengklik tombol-tombol pada sidebar untuk menuju ke menu masing-masing.</h6>
                     </div>
@@ -67,7 +91,7 @@
             </div>
             <div class="col-2"></div> -->
 
-            <!-- /.col-md-6 -->
+        <!-- /.col-md-6 -->
         <!-- </div> -->
         <!-- /.row -->
     </div><!-- /.container-fluid -->
