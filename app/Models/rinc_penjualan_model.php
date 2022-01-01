@@ -39,7 +39,7 @@ class rinc_penjualan_model extends Model
         $builder = $db->table('penjualan');
         // $query = $builder->getWhere(['penjualan_id' => $id, 'cluster' => $cluster]);
         $data = [
-            'nama_alias' => $alias,
+            'nama_id' => $alias,
         ];
         $builder->where('penjualan_id', $id);
         $query = $builder->update($data);

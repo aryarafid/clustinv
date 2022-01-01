@@ -121,9 +121,9 @@ $session = session()
                                                                         <!-- <td> <?= $to['penjualan_id']; ?> </td> -->
                                                                         <td> <?= $to['kode']; ?> </td>
                                                                         <td> <?= $to['nama_produk']; ?> </td>
-                                                                        <td> <?= $to['terjual']; ?> </td>
-                                                                        <td> <?= $to['frek']; ?> </td>
-                                                                        <td> <?= $to['cluster']; ?> </td>
+                                                                        <td style="text-align: right;">  <?= $to['terjual']; ?> </td>
+                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: center;"> <?= $to['cluster']; ?> </td>
 
 
                                                                     </tr>
@@ -160,9 +160,11 @@ $session = session()
                                                                         <!-- <td> <?= $to['penjualan_id']; ?> </td> -->
                                                                         <td> <?= $cl11['kode']; ?> </td>
                                                                         <td> <?= $cl11['nama_produk']; ?> </td>
-                                                                        <td> <?= $cl11['terjual']; ?> </td>
-                                                                        <td> <?= $cl11['frek']; ?> </td>
-                                                                        <td> <?= $cl11['cluster']; ?> </td>
+                                                                        <td style="text-align: right;"> <?= $cl11['terjual']; ?> </td>
+                                                                        <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
+                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+
+                                                                        <td style="text-align: center;"> <?= $cl11['cluster']; ?> </td>
 
 
                                                                     </tr>
@@ -199,9 +201,10 @@ $session = session()
                                                                         <!-- <td> <?= $to['penjualan_id']; ?> </td> -->
                                                                         <td> <?= $cl22['kode']; ?> </td>
                                                                         <td> <?= $cl22['nama_produk']; ?> </td>
-                                                                        <td> <?= $cl22['terjual']; ?> </td>
-                                                                        <td> <?= $cl22['frek']; ?> </td>
-                                                                        <td> <?= $cl22['cluster']; ?> </td>
+                                                                        <td style="text-align: right;"> <?= $cl22['terjual']; ?> </td>
+                                                                        <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
+                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: center;"> <?= $cl22['cluster']; ?> </td>
 
 
                                                                     </tr>
@@ -238,9 +241,10 @@ $session = session()
                                                                         <!-- <td> <?= $to['penjualan_id']; ?> </td> -->
                                                                         <td> <?= $cl33['kode']; ?> </td>
                                                                         <td> <?= $cl33['nama_produk']; ?> </td>
-                                                                        <td> <?= $cl33['terjual']; ?> </td>
-                                                                        <td> <?= $cl33['frek']; ?> </td>
-                                                                        <td> <?= $cl33['cluster']; ?> </td>
+                                                                        <td style="text-align: right;"> <?= $cl33['terjual']; ?> </td>
+                                                                        <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
+                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: center;"> <?= $cl33['cluster']; ?> </td>
 
 
                                                                     </tr>

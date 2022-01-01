@@ -59,7 +59,7 @@ class Manage_data extends BaseController
 			// $rett = array(
 			// $date1 = $this->request->getPost('datepicker1');
 			// $date2 = $this->request->getPost('datepicker2');
-			$nama_alias = $this->request->getPost('nama_alias');
+			$nama_id = $this->request->getPost('nama_id');
 			// $filename = $file->getName();
 			// $coord = $this->request->getPost('coord');
 			// );
@@ -90,7 +90,7 @@ class Manage_data extends BaseController
 			// echo '<br>';
 			// var_dump($date2);
 			// echo '<br>';
-			// var_dump($nama_alias);
+			// var_dump($nama_id);
 			// die;
 
 
@@ -146,7 +146,7 @@ class Manage_data extends BaseController
 
 
 			$data = [
-				'nama_alias' => $nama_alias,
+				'nama_id' => $nama_id,
 				'date1' => $date1,
 				'date2' => $date2,
 				'worksheet' => $worksheet
@@ -323,7 +323,7 @@ class Manage_data extends BaseController
 		$dataPenjualan = [									//insert tabel penjualan
 			// 
 			"timestamp_enterdata" => $tgl_pencairan,
-			"nama_alias"	=> $data['nama_alias'],
+			"nama_id"	=> $data['nama_id'],
 			"start_date" 	=> $data['date1'],
 			"end_date" 		=> $data['date2'],
 			"dbi" 			=> $dbi,

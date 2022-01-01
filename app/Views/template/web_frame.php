@@ -96,62 +96,82 @@ $uri = service('uri');
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
+            <!-- <a href="<?= base_url(); ?>" class="brand-link"> -->
             <a href="<?= base_url(); ?>" class="brand-link" style="text-align:center;">
-                <!-- <img src="dist/img/AdminLTELogo.png" alt="ClustInv" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-                <span class="brand-text font-weight-light">ClustInv</span>
+                <!-- <img src="dist/img/logo.png" alt="ClustInv" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+                <img src="<?= base_url(); ?>/dist/img/logo.png" alt="ClustInv">
+                
             </a>
+                <!-- <span class="brand-text font-weight-light">ClustInv</span> -->
 
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                <div class="pb-1 d-flex">
+                <!-- <div class="img bg-wrap py-4">  -->
 
-                </div>
+                <!-- <img src="<?= base_url(); ?>/dist/img/logo.png" alt="sosa" width="100%"> -->
 
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
+
+                <!-- <div class="user-logo">
+                    <div class="img" style="
+                    width:50px;
+                    padding-top: 50px;
+                    padding-bottom: 50px;
+                    max-width:calc(100% - 200px);"></div>
+                    <h3> </h3>
+                </div> -->
+
+                <!-- </div> -->
+
+
+
+                <!-- </a> -->
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <!-- <div class="pb-1 d-flex">
+
+                </div> -->
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item">
+                            <li class="nav-item">
+                                <a href="<?= base_url(); ?>" class="nav-link <?= ($uri->getSegment(1) == '' ? 'active' : null) ?>">
 
-                            <a href="<?= base_url(); ?>" class="nav-link <?= ($uri->getSegment(1) == '' ? 'active' : null) ?>">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Home
+                                    </p>
+                                </a>
 
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Home
-                                </p>
-                            </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url() . "/Manage_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Manage_data' ?
+                                                                                                    'active' : null);
+                                                                                                ?>">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Insert Data
+                                    </p>
+                                </a>
 
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() . "/Manage_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Manage_data' ?
-                                                                                                'active' : null);
-                                                                                            ?>">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Insert Data
-                                </p>
-                            </a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() . "/Rekap_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Rekap_data' ?
-                                                                                                'active' : null);
-                                                                                            ?>">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Rekapitulasi
-                                </p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url() . "/Rekap_data/"; ?>" class="nav-link <?= ($uri->getSegment(1) == 'Rekap_data' ?
+                                                                                                    'active' : null);
+                                                                                                ?>">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Rekapitulasi
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+                <!-- /.sidebar -->
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
@@ -236,7 +256,7 @@ $uri = service('uri');
     <!-- toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
+    <!-- jquery -->
     <script>
         $(function() {
             // $('#resp_table').DataTable({
@@ -250,57 +270,90 @@ $uri = service('uri');
             // });
             $(document).ready(function() {
                 $('#resp_table').DataTable({
-                    "scrollY": "100vh",
-                    "scrollCollapse": true,
+                        "scrollY": "100vh",
+                        "scrollCollapse": true,
 
-                    "paging": false,
+                        "paging": true,
+                        // "paging": false,
 
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                }),
-                $('#resp_table1').DataTable({
-                    "scrollY": "100vh",
-                    "scrollCollapse": true,
+                        // "scrollX": true,
 
-                    "paging": false,
+                        "lengthMenu": [
+                            [25, 50, 100, -1],
+                            [25, 50, 100, "All"]
+                        ],
 
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                }),
-                $('#resp_table2').DataTable({
-                    "scrollY": "100vh",
-                    "scrollCollapse": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                    }),
+                    $('#resp_table1').DataTable({
+                        "scrollY": "100vh",
+                        "scrollCollapse": true,
 
-                    "paging": false,
+                        "paging": true,
+                        // "paging": false,
 
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                }),
-                $('#resp_table3').DataTable({
-                    "scrollY": "100vh",
-                    "scrollCollapse": true,
+                        // "scrollX": true,
+                        "lengthMenu": [
+                            [25, 50, 100, -1],
+                            [25, 50, 100, "All"]
+                        ],
 
-                    "paging": false,
 
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                })
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                    }),
+                    $('#resp_table2').DataTable({
+                        "scrollY": "100vh",
+                        "scrollCollapse": true,
+
+                        "paging": true,
+                        // "paging": false,
+
+                        // "scrollX": true,
+                        "lengthMenu": [
+                            [25, 50, 100, -1],
+                            [25, 50, 100, "All"]
+                        ],
+
+
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                    }),
+                    $('#resp_table3').DataTable({
+                        "scrollY": "100vh",
+                        "scrollCollapse": true,
+
+                        "paging": true,
+                        // "paging": false,
+
+
+                        // "scrollX": true,
+                        "lengthMenu": [
+                            [25, 50, 100, -1],
+                            [25, 50, 100, "All"]
+                        ],
+
+
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                    })
             });
             // $(document).ready(function() {
             //     $(".login-form").submit(function(e) {
@@ -322,8 +375,6 @@ $uri = service('uri');
 
         // $('#my-card').CardWidget(options)
     </script>
-
-
 </body>
 
 </html>

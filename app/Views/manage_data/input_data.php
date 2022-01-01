@@ -77,14 +77,6 @@ $validation =  \Config\Services::validation(); ?>
                             <!-- </div> -->
 
                             <div class="form-group">
-                                <label for="alias">Nama File Baru</label>
-                                <input class="form-control" type="text" placeholder="Nama Alias Data" name="nama_alias" required>
-                                <!-- <small id="nama_alias" class="form-text text-muted">
-                                    Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
-                                </small> -->
-                            </div>
-
-                            <div class="form-group" style="margin-bottom: 0px;">
                                 <label for="InputFile">Input File Excel</label>
                                 <div class="input-group">
                                     <div class="custom-file">
@@ -96,6 +88,15 @@ $validation =  \Config\Services::validation(); ?>
                                     Pastikan file memiliki kolom Frekuensi.
                                 </small> -->
                             </div>
+
+                            <div class="form-group">
+                                <label for="alias">Nama File Baru</label>
+                                <input class="form-control" type="text" placeholder="Nama Alias Data" name="nama_id" required>
+                                <!-- <small id="nama_id" class="form-text text-muted">
+                                    Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
+                                </small> -->
+                            </div>
+
 
                             <!-- <hr> -->
 

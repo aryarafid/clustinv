@@ -84,8 +84,8 @@ class Rekap_data extends BaseController
 
 	public function editAlias($id)
 	{
-		$nama_alias = $this->request->getPost('nama_alias');
-		$this->rinc_penjualan_model->changeAlias($id, $nama_alias);
+		$nama_id = $this->request->getPost('nama_id');
+		$this->rinc_penjualan_model->changeAlias($id, $nama_id);
 		echo "<script>alert('Data berhasil diedit');window.location = '" . base_url() . '/rekap_data' . "';</script>";
 
 	}

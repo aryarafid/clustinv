@@ -45,7 +45,7 @@
                                         <!-- <td> <? //= $dp['penjualan_id']; 
                                                     ?> </td> -->
                                         <td>
-                                            <?= $dp['nama_alias'];
+                                            <?= $dp['nama_id'];
                                             ?>
                                         </td>
                                         <td>
@@ -119,7 +119,7 @@
                                                 <div class="form-group">
                                                     <label for="alias">Nama Baru</label>
                                                     <input class="form-control" type="text" 
-                                                    placeholder="Nama Alias File Baru" name="nama_alias" required>
+                                                    placeholder="Nama Alias File Baru" name="nama_id" required>
                                                 </div>
                                                 
                                             </div>
