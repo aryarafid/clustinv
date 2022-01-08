@@ -29,7 +29,7 @@ $validation =  \Config\Services::validation(); ?>
                         <!-- <p class="card-text"> -->
                         <ol>
                             <li>
-                                Pengguna memasukkan alias nama data yang akan diproses guna memudahkan untuk mengenalinya pada
+                                Pengguna memasukkan nama baru untuk data yang akan diproses guna memudahkan untuk mengenalinya pada
                                 menu dashboard rekapitulasi data.
                                 <ul>
                                     <li>
@@ -90,8 +90,8 @@ $validation =  \Config\Services::validation(); ?>
                             </div>
 
                             <div class="form-group">
-                                <label for="alias">Nama File Baru</label>
-                                <input class="form-control" type="text" placeholder="Nama Alias Data" name="nama_id" required>
+                                <label for="namaID">Nama ID Data Baru</label>
+                                <input class="form-control" type="text" placeholder="Nama ID Data Baru" name="nama_id" required>
                                 <!-- <small id="nama_id" class="form-text text-muted">
                                     Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
                                 </small> -->

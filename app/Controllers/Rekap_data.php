@@ -82,10 +82,10 @@ class Rekap_data extends BaseController
 		return view('rekap/rekap_detail', $data);
 	}
 
-	public function editAlias($id)
+	public function editnamaID($id)
 	{
 		$nama_id = $this->request->getPost('nama_id');
-		$this->rinc_penjualan_model->changeAlias($id, $nama_id);
+		$this->rinc_penjualan_model->changenamaID($id, $nama_id);
 		echo "<script>alert('Data berhasil diedit');window.location = '" . base_url() . '/rekap_data' . "';</script>";
 
 	}

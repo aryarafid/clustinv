@@ -26,7 +26,7 @@
                             <thead>
                                 <tr title="Klik untuk mengurutkan data">
                                     <!-- <th>ID Penjualan</th> -->
-                                    <th>Nama Alias</th>
+                                    <th>Nama ID</th>
                                     <th>Rentang Tanggal Awal</th>
                                     <th>Rentang Tanggal Akhir</th>
                                     <th>Tanggal dan Waktu Memasukkan Data</th>
@@ -65,8 +65,10 @@
                                             <?php echo date('d-m-Y - H:i:s', strtotime($dp['timestamp_enterdata'])); ?>
 
                                         </td>
-                                        <!-- <td> <?//= $dp['dbi']; ?> </td> -->
-                                        <!-- <td> <?//= $dp['selisih_simpangan']; ?> </td> -->
+                                        <!-- <td> <? //= $dp['dbi']; 
+                                                    ?> </td> -->
+                                        <!-- <td> <? //= $dp['selisih_simpangan']; 
+                                                    ?> </td> -->
 
                                         <td>
                                             <a href="<?= base_url(); ?>/rekap_data/rekap_tr/<?= $dp['penjualan_id']; ?>">
@@ -76,12 +78,49 @@
                                             </a>
 
                                             <!-- <a href="#"></a>  -->
-                                            <!-- <a href="<?//= base_url(); ?>/rekap_data/editAlias/<?//= $dp['penjualan_id']; ?>"> -->
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default" 
-                                            data-placement="top" title="Edit Nama Alias Data Rekapitulasi">
+                                            <!-- <a href="<? //= base_url(); 
+                                                            ?>/rekap_data/editAlias/<? //= $dp['penjualan_id']; 
+                                                                                    ?>"> -->
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-<?php echo $dp['penjualan_id'];?>" data-placement="top" title="Edit Nama ID Data Rekapitulasi">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </button>
-                                            </a>
+
+                                            <!-- modal edit -->
+                                            <div class="modal fade" id="modal-<?php echo $dp['penjualan_id'];?>">
+                                                <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/rekap_data/editnamaID/<?= $dp['penjualan_id']; ?>">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Edit Nama ID Data Rekapitulasi</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <div class="card-body ">
+                                                                    <div class="form-group">
+                                                                        <label for="namaID">Nama ID Baru</label>
+                                                                        <?php // foreach ($data_penjualan as $dp) { ?>
+                                                                            <input class="form-control" type="text" value="<?php echo $dp['nama_id']; ?>" name="nama_id" required>
+                                                                        <?php // } ?>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.card-body -->
+                                                            </div>
+                                                            
+                                                            <div class="modal-footer justify-content-between">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                                <button type="submit" class="btn btn-success">Simpan Nama Baru</button>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                        <!-- /.modal-content -->
+                                                    </div>
+                                                    <!-- /.modal-dialog -->
+                                                </form>
+                                            </div>
 
                                             <a href="<?= base_url(); ?>/rekap_data/delete_rekap/<?= $dp['penjualan_id']; ?>" onclick="return confirm('Yakin ingin menghapus data?');">
                                                 <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus Data Rekap">
@@ -97,44 +136,7 @@
                                 <!-- </tr> -->
 
                             </tbody>
-
-
                         </table>
-
-                        <!-- modal edit -->
-                        <div class="modal fade" id="modal-default">
-                            <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/rekap_data/editAlias/<?= $dp['penjualan_id']; ?>">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Nama Alias Data Rekapitulasi</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            
-                                            <div class="card-body ">
-
-                                                <div class="form-group">
-                                                    <label for="alias">Nama Baru</label>
-                                                    <input class="form-control" type="text" 
-                                                    placeholder="Nama Alias File Baru" name="nama_id" required>
-                                                </div>
-                                                
-                                            </div>
-                                            <!-- /.card-body -->
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                            <button type="submit" class="btn btn-success">Simpan Nama Baru</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </form>
-                        </div>
 
 
                     </div>

@@ -205,12 +205,9 @@ $session = session()
                                                                         <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
                                                                         <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
                                                                         <td style="text-align: center;"> <?= $cl22['cluster']; ?> </td>
-
-
                                                                     </tr>
                                                                 <?php } ?>
                                                                 <!-- </tr> -->
-
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -245,8 +242,6 @@ $session = session()
                                                                         <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
                                                                         <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
                                                                         <td style="text-align: center;"> <?= $cl33['cluster']; ?> </td>
-
-
                                                                     </tr>
                                                                 <?php } ?>
                                                                 <!-- </tr> -->
