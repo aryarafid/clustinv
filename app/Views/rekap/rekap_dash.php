@@ -14,7 +14,7 @@
                 <!-- tabel -->
                 <div class="card card-primary card-outline">
                     <!-- <div class="card-header"> -->
-                    <!-- <h3 class="card-title"> Dashboard Rekapitulasi Data Hasil Klasterisasi </h3>
+                    <!-- <h3 class="card-title"> Dashboard Data Hasil Clustering </h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         </div> -->
@@ -81,7 +81,7 @@
                                             <!-- <a href="<? //= base_url(); 
                                                             ?>/rekap_data/editAlias/<? //= $dp['penjualan_id']; 
                                                                                     ?>"> -->
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-<?php echo $dp['penjualan_id'];?>" data-placement="top" title="Edit Nama ID Data Rekapitulasi">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-<?php echo $dp['penjualan_id'];?>" data-placement="top" title="Edit Nama ID Data Hasil Clustering">
                                                 <i class="fa fa-edit" aria-hidden="true"></i>
                                             </button>
 
@@ -92,7 +92,7 @@
                                                         <div class="modal-content">
 
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title">Edit Nama ID Data Rekapitulasi</h4>
+                                                                <h4 class="modal-title">Edit Nama ID Data Hasil Clustering</h4>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>

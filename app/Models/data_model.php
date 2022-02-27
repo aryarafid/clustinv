@@ -66,7 +66,7 @@ class data_model extends Model
         return $tabel;
     }
 
-    public function countdis1($tabel, $medoids) //hitung jarak v2 - normified
+    public function countdis1($tabel, $medoids) //hitung jarak - normalisasi
     {
         $db = \Config\Database::connect();
 
@@ -74,30 +74,33 @@ class data_model extends Model
         // for ($i=0; $i < count($medoids) ; $i++) { 
         for ($i = 0; $i < count($tabel); $i++) {
             // tabel - medoid
-            $tabel[$i]['jmed1'] = +sqrt(
-                ($tabel[$i]['normjual'] - $medoids[0]['normjual']) ** 2
+            // $tabel[$i]['jmed1'] = +sqrt(
+            $tabel[$i]['jmed1'] = sqrt(
+                (($tabel[$i]['normjual'] - $medoids[0]['normjual']) ** 2)
                     +
-                    ($tabel[$i]['normfrek'] - $medoids[0]['normfrek']) ** 2
+                    (($tabel[$i]['normfrek'] - $medoids[0]['normfrek']) ** 2)
             );
         }
 
         // medoid 2
         for ($i = 0; $i < count($tabel); $i++) {
             // tabel - medoid
-            $tabel[$i]['jmed2'] = +sqrt(
-                ($tabel[$i]['normjual'] - $medoids[1]['normjual']) ** 2
+            // $tabel[$i]['jmed2'] = +sqrt(
+            $tabel[$i]['jmed2'] = sqrt(
+                (($tabel[$i]['normjual'] - $medoids[1]['normjual']) ** 2)
                     +
-                    ($tabel[$i]['normfrek'] - $medoids[1]['normfrek']) ** 2
+                    (($tabel[$i]['normfrek'] - $medoids[1]['normfrek']) ** 2)
             );
         }
 
         // medoid 3
         for ($i = 0; $i < count($tabel); $i++) {
             // tabel - medoid
-            $tabel[$i]['jmed3'] = +sqrt(
-                ($tabel[$i]['normjual'] - $medoids[2]['normjual']) ** 2
+            // $tabel[$i]['jmed3'] = +sqrt(
+            $tabel[$i]['jmed3'] = sqrt(
+                (($tabel[$i]['normjual'] - $medoids[2]['normjual']) ** 2)
                     +
-                    ($tabel[$i]['normfrek'] - $medoids[2]['normfrek']) ** 2
+                    (($tabel[$i]['normfrek'] - $medoids[2]['normfrek']) ** 2)
             );
         }
 
@@ -184,11 +187,11 @@ class data_model extends Model
 
     public function sswi($cluster, $centroid)           //sswi , di dalamnya ada distance dr each data ke centroid
     {
-        $db = \Config\Database::connect();
+        $sswi = 0;
 
         for ($i = 0; $i < count($cluster); $i++) {
             // cluster - centroid
-            $sswi = +sqrt(
+            $sswi += sqrt(
                 ($cluster[$i]['terjual'] - $centroid['terjual']) ** 2
                     +
                     ($cluster[$i]['frek'] - $centroid['frek']) ** 2
@@ -202,7 +205,9 @@ class data_model extends Model
     {
         // for ($i = 0; $i < count($centroid1); $i++) {
         // cluster - centroid
-        $ssbij = +sqrt(
+
+        $ssbij = 0;
+        $ssbij += sqrt(
             ($centroid1['terjual'] - $centroid2['terjual']) ** 2
                 +
                 ($centroid1['frek'] - $centroid2['frek']) ** 2
@@ -211,10 +216,10 @@ class data_model extends Model
         return $ssbij;
     }
 
-    public function rij($sswi, $ssbij)                  //ratio (+ L + yb better) cluster i & j
+    public function rij($sswi, $sswj, $ssbij)                  //ratio (+ L + yb better) cluster i & j
     {
         $rij = 0;
-        return $rij = ($sswi + $sswi)/$ssbij;
+        return $rij = ($sswi + $sswj) / $ssbij;
     }
     /************************************************END DBI VALIDATION*************************************************/
 

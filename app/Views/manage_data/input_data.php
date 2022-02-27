@@ -30,7 +30,7 @@ $validation =  \Config\Services::validation(); ?>
                         <ol>
                             <li>
                                 Pengguna memasukkan nama baru untuk data yang akan diproses guna memudahkan untuk mengenalinya pada
-                                menu dashboard rekapitulasi data.
+                                menu dashboard data hasil clustering.
                                 <ul>
                                     <li>
                                         Misal data penjualan bulan Agustus, di kolom input dapat ditulis
@@ -43,7 +43,7 @@ $validation =  \Config\Services::validation(); ?>
                             </li>
                             <li>
                                 Pengguna mengklik tombol submit untuk memulai proses pengelompokan data. Hasil dapat dilihat di
-                                menu Rekapitulasi pada sidebar (menu samping).
+                                menu Hasil Clustering pada sidebar (menu samping).
                             </li>
                         </ol>
 
@@ -67,7 +67,13 @@ $validation =  \Config\Services::validation(); ?>
                     <!-- form start -->
 
                     <!-- <form method="post" action="<?= base_url(); ?>/data_idv/tambah_idv_aksi"> -->
+
+                    <!-- Main method -->
                     <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/olah_dokumen">
+
+                    <!-- Skull method -->
+                    <!-- <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
+
 
                         <div class="card-body ">
 
@@ -93,7 +99,7 @@ $validation =  \Config\Services::validation(); ?>
                                 <label for="namaID">Nama ID Data Baru</label>
                                 <input class="form-control" type="text" placeholder="Nama ID Data Baru" name="nama_id" required>
                                 <!-- <small id="nama_id" class="form-text text-muted">
-                                    Masukkan nama file untuk memudahkan identifikasi pada dashboard data rekapitulasi.
+                                    Masukkan nama file untuk memudahkan identifikasi pada dashboard data hasil clustering.
                                 </small> -->
                             </div>
 
@@ -109,6 +115,9 @@ $validation =  \Config\Services::validation(); ?>
                             <button type="submit" class="btn btn-primary">
                                 Submit
                             </button>
+                            <!-- <button type="submit" class="btn btn-secondary">
+                                Kerangka
+                            </button> -->
                             <!-- </a> -->
                         </div>
 

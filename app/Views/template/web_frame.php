@@ -139,7 +139,7 @@ $uri = service('uri');
                                                                                             ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Rekapitulasi
+                                    Hasil Clustering
                                 </p>
                             </a>
                         </li>

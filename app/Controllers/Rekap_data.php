@@ -31,8 +31,8 @@ class Rekap_data extends BaseController
 		$data_penjualan = $this->penjualan_model->findAll();
 
 		$data = [
-			'title'		=> 'Dashboard Rekapitulasi Data Hasil Klasterisasi ',
-			'heading' 	=> 'Dashboard Rekapitulasi Data Hasil Klasterisasi',
+			'title'		=> 'Dashboard Data Hasil Clustering',
+			'heading' 	=> 'Dashboard Data Hasil Clustering',
 			'data_penjualan' => $data_penjualan
 		];
 		return view('rekap/rekap_dash', $data);
@@ -64,8 +64,8 @@ class Rekap_data extends BaseController
 		// exit;
 
 		$data = [
-			'title'		=> 'Rekapitulasi Data Hasil Klasterisasi ',
-			'heading' 	=> 'Rekapitulasi Data Hasil Klasterisasi',
+			'title'		=> 'Data Hasil Clustering',
+			'heading' 	=> 'Data Hasil Clustering',
 			'tab_ori' => $getbyID,
 			'penjualan_id' => $penjualan_ids,
 			'getDateTStamp' => $getDateTStamp,
@@ -87,7 +87,6 @@ class Rekap_data extends BaseController
 		$nama_id = $this->request->getPost('nama_id');
 		$this->rinc_penjualan_model->changenamaID($id, $nama_id);
 		echo "<script>alert('Data berhasil diedit');window.location = '" . base_url() . '/rekap_data' . "';</script>";
-
 	}
 
 	public function delete_rekap($id)		//hapus data rekap
