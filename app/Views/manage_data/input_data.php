@@ -69,10 +69,11 @@ $validation =  \Config\Services::validation(); ?>
                     <!-- <form method="post" action="<?= base_url(); ?>/data_idv/tambah_idv_aksi"> -->
 
                     <!-- Main method -->
-                    <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/olah_dokumen">
+                    <form method="post" enctype="multipart/form-data">
+                    <!-- action="<?//= base_url(); ?>/Manage_data/olah_dokumen"> -->
 
-                    <!-- Skull method -->
-                    <!-- <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
+                        <!-- Skull method -->
+                        <!-- <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
 
 
                         <div class="card-body ">
@@ -111,13 +112,13 @@ $validation =  \Config\Services::validation(); ?>
 
 
                         <div class="card-footer">
-                            <!-- <a href="<?= base_url(); ?>/Manage_data/olah_dokumen"> -->
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" formaction="<?= base_url(); ?>/Manage_data/olah_dokumen">">
                                 Submit
                             </button>
-                            <!-- <button type="submit" class="btn btn-secondary">
+                            <!-- <a href="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
+                            <button type="submit" class="btn btn-secondary" formaction="<?= base_url(); ?>/Manage_data/process_kerangka">">
                                 Kerangka
-                            </button> -->
+                            </button>
                             <!-- </a> -->
                         </div>
 

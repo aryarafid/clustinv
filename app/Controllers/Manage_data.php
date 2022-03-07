@@ -367,6 +367,8 @@ class Manage_data extends BaseController
 				"kode", "nama_produk", "kms", "terjual", "hrg_jual", "netto", "laba_kotor", "struk", "frek", "barcode"
 			];
 
+			d($worksheet);
+
 			for ($i = 0; $i < count($worksheet); $i++) {
 				// 	// $kolom_array = implode(" ",$kolom_array);
 				for ($j = 0; $j < count($kolom_array); $j++) {
@@ -386,6 +388,9 @@ class Manage_data extends BaseController
 				$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
 				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 			}
+
+			
+			// dd($worksheet);
 
 			$ids = array_search('PLASTIK TLOGO MART', array_column($worksheet, 'nama_produk'));
 			// echo $id;

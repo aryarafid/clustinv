@@ -162,7 +162,7 @@ $session = session()
                                                                         <td> <?= $cl11['nama_produk']; ?> </td>
                                                                         <td style="text-align: right;"> <?= $cl11['terjual']; ?> </td>
                                                                         <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
-                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: right;"> <?= number_format($cl11['frek'], 2, ',', ' '); ?> </td>
 
                                                                         <td style="text-align: center;"> <?= $cl11['cluster']; ?> </td>
 
@@ -203,7 +203,7 @@ $session = session()
                                                                         <td> <?= $cl22['nama_produk']; ?> </td>
                                                                         <td style="text-align: right;"> <?= $cl22['terjual']; ?> </td>
                                                                         <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
-                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: right;"> <?= number_format($cl22['frek'], 2, ',', ' '); ?> </td>
                                                                         <td style="text-align: center;"> <?= $cl22['cluster']; ?> </td>
                                                                     </tr>
                                                                 <?php } ?>
@@ -240,7 +240,7 @@ $session = session()
                                                                         <td> <?= $cl33['nama_produk']; ?> </td>
                                                                         <td style="text-align: right;"> <?= $cl33['terjual']; ?> </td>
                                                                         <!-- <td style="text-align: right;"> <?// = $cl11['frek']; ?> </td> -->
-                                                                        <td style="text-align: right;"> <?= number_format($to['frek'], 2, ',', ' '); ?> </td>
+                                                                        <td style="text-align: right;"> <?= number_format($cl33['frek'], 2, ',', ' '); ?> </td>
                                                                         <td style="text-align: center;"> <?= $cl33['cluster']; ?> </td>
                                                                     </tr>
                                                                 <?php } ?>
