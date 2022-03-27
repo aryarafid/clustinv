@@ -70,7 +70,8 @@ $validation =  \Config\Services::validation(); ?>
 
                     <!-- Main method -->
                     <form method="post" enctype="multipart/form-data">
-                    <!-- action="<?//= base_url(); ?>/Manage_data/olah_dokumen"> -->
+                        <!-- action="<? //= base_url(); 
+                                        ?>/Manage_data/olah_dokumen"> -->
 
                         <!-- Skull method -->
                         <!-- <form method="post" enctype="multipart/form-data" action="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
@@ -112,12 +113,20 @@ $validation =  \Config\Services::validation(); ?>
 
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" formaction="<?= base_url(); ?>/Manage_data/olah_dokumen">">
+                            <button type="submit" class="btn btn-success" formaction="<?= base_url(); ?>/Manage_data/olah_dokumen">
                                 Submit
                             </button>
-                            <!-- <a href="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
-                            <button type="submit" class="btn btn-secondary" formaction="<?= base_url(); ?>/Manage_data/process_kerangka">">
+                            <!--  -->
+                            <button type="submit" class="btn btn-secondary" formaction="<?= base_url(); ?>/Manage_data/process_kerangka">
                                 Kerangka
+                            </button>
+                            <!--  -->
+                            <button type="submit" class="btn btn-primary" formaction="<?= base_url(); ?>/Manage_data/olah_dokumen_sample">
+                                Submit 31/5 to DB
+                            </button>
+                            <!-- <a href="<?= base_url(); ?>/Manage_data/process_kerangka"> -->
+                            <button type="submit" class="btn btn-secondary" formaction="<?= base_url(); ?>/Manage_data/process_kerangka_sample">
+                                Kerangka 31/5
                             </button>
                             <!-- </a> -->
                         </div>
