@@ -14,4 +14,5 @@ Screenshots:
 <img src="imgss/hsl2.png" width=800px>
 
 3.2. Result in graph form
+
 <img src="imgss/grafhslclst.png" width=800px>
