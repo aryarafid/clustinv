@@ -69,12 +69,12 @@ class Manage_data extends BaseController
 			$date2 = $spreadsheet->getActiveSheet()->getCell('D2')->getFormattedValue();
 			$date2 = strtotime($date2);
 			$date2 = date('Y-m-d', $date2);
-			
+
 			$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
 			$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow()) - 1;
 
 			$coord = $highestColumn . "{$highestRow}";
-			
+
 			$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
 				"B4:{$coord}",     // The worksheet range that we want to retrieve
 				// "B35:J71",
@@ -108,7 +108,7 @@ class Manage_data extends BaseController
 				$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
 				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 			}
-			
+
 			$ids = array_search('PLASTIK TLOGO MART', array_column($worksheet, 'nama_produk'));
 			unset($worksheet[$ids]);
 
@@ -182,25 +182,25 @@ class Manage_data extends BaseController
 		// ];
 
 		for ($i = 0; $i < 100; $i++) {
-		// for ($i = 0; $i < 2; $i++) {
+			// for ($i = 0; $i < 2; $i++) {
 
 			$tampilloop[$i] = [
 				'meds1' 	=> $meds1   = $this->data_model->getMedoidNorm($optable),
 				// 'meds' 	=> $meds[$i],
- 
-				'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
+
+				'dis' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
 				// 'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds1),
 
-				'optable' 	=> $optable = $this->data_model->getSimpangan($optable),
-				'optable' 	=> $optable = $this->data_model->clustering($optable),
+				'simp' 	=> $optable = $this->data_model->getSimpangan($optable),
+				'clu' 	=> $optable = $this->data_model->clustering($optable),
 				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
 			];
 		}
 
 		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
 		do {
-			// $selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
-			$selsimp = $tampilloop[1]['jumsimp'] - $tampilloop[0]['jumsimp'];
+			$selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
+			// $selsimp = $tampilloop[1]['jumsimp'] - $tampilloop[0]['jumsimp'];
 
 			$lpcnt++;
 		} while ($selsimp < 0);
@@ -292,7 +292,7 @@ class Manage_data extends BaseController
 			"dbi" 			=> $dbi,
 			"selisih_simpangan" => $selsimp
 		];
-		
+
 		$this->penjualan_model->save($dataPenjualan);
 
 		$penjualan_id = $this->penjualan_model->insertID();		//get id penjualan dari tabel penjualan
@@ -391,7 +391,7 @@ class Manage_data extends BaseController
 				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 			}
 
-			
+
 			// dd($worksheet);
 
 			$ids = array_search('PLASTIK TLOGO MART', array_column($worksheet, 'nama_produk'));
@@ -454,87 +454,73 @@ class Manage_data extends BaseController
 		$lpcnt = 0;					//loop count
 		$selsimp = 0; 				//selisih simpangan
 
-		// $meds0 = array(
-		// 	$optable[127],
-		// 	$optable[2097],
-		// 	$optable[2448],
-		// );
+		// // // iterasi pertama
+		$meds	   	= $this->data_model->getMedoidNorm($optable);
 
-		// $meds1 = array(
-		// 	$optable[1391],
-		// 	$optable[2523],
-		// 	$optable[1647],
-		// );
+		$tampilloop[0] 	= [
+			'meds1' 	=> $meds,
+			'dis' 		=> $newop = $this->data_model->countdis1($optable, $meds),
+			'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+			'cl' 		=> $newop = $this->data_model->clustering($newop),
+			'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
+		];
 
-		// $meds = [
-			
-		// 	[
-		// 		$optable[127],
-		// 		$optable[2097],
-		// 		$optable[2448],
-		// 	],
-		// 	[
-		// 		$optable[1391],
-		// 		$optable[2523],
-		// 		$optable[1647],
-		// 	]
-		// ];
+		d($newop);
 
-		// dd($meds);
-		
-		// d($optable);
-		// d($meds);
+		for ($i = 0; $i < count($meds); $i++) {
+			$key[$i] = array_search($meds[$i]['kode'], array_column($newop, 'kode'));
+		}
+		for ($i = 0; $i < count($key); $i++) {
+			$medsop[$i] = $newop[$key[$i]];				//medoid di optable
+		}
 
+		d($medsop);
 
-		// PAKENYA MULTI ARRAY AJA
-		// MEDS 1[] 2[]
+		// $newmeds = $this->data_model->getMedoidNorm3($optable); 
 
-		for ($i = 0; $i < 100; $i++) {
-		// for ($i = 0; $i < 2; $i++) {
+		// d($newmeds);
+		// dd($optable);
+
+		// iterasi n
+		for ($i = 1; $i < 11; $i++) {
+			// for ($i = 0; $i < 2; $i++) {
 			$tampilloop[$i] = [
-				'meds1' 	=> $meds   = $this->data_model->getMedoidNorm($optable),
-				// 'meds' 	=> $meds[$i],
-
-				// 'meds1' 	=> $meds1   = array(
-				// 	$optable[197],
-				// 	$optable[171],
-				// 	$optable[1376],
-				// ),
-				'dis' 	=> $optable = $this->data_model->countdis1($optable, $meds),
-				'simp' 	=> $optable = $this->data_model->getSimpangan($optable),
-				'cl' 	=> $optable = $this->data_model->clustering($optable),
-				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
+				// 'meds1' 	=> $meds   = $this->data_model->getMedoidNorm($optable),
+				'meds'		=> $meds 	= $this->data_model->getMedoidNorm3($newop),
+				'dis' 		=> $newop = $this->data_model->countdis1($newop, $meds),
+				'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+				'cl' 		=> $newop = $this->data_model->clustering($newop),
+				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
 			];
 		}
 
-
+		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
+		do {
+			$selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
+			// $selsimp = $tampilloop[1]['jumsimp'] - $tampilloop[0]['jumsimp'];
+			$lpcnt++;
+		} while ($selsimp < 0);
 
 		// echo "<pre>";
+		d($tampilloop);
+
 		echo "hasil hitungan iterasi 1";
 		d($tampilloop[0]['cl']);
 
 		echo "hasil hitungan iterasi 2";
 		d($tampilloop[1]['cl']);
 
-
-
-		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
-		do {
-			// $selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
-			$selsimp = $tampilloop[1]['jumsimp'] - $tampilloop[0]['jumsimp'];
-			$lpcnt++;
-		} while ($selsimp < 0);
-
-		// echo $selsimp; exit;
+		echo $selsimp;
+		// exit;
 
 		// 	// 	// // // // // //	=	=	=	==			= DBI PROCESS STARTS HERE
 		// 	// 	// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan DBI
-		for ($i = 0; $i < count($optable); $i++) {
+		for ($i = 0; $i < count($newop); $i++) {
 			$clustarray[$i] = [
-				'cluster' 	=> $optable[$i]['cluster'],
-				'kode' 		=> $optable[$i]['kode'],
-				'terjual'	=> $optable[$i]['terjual'],
-				'frek' 		=> $optable[$i]['frek'],
+				'cluster' 	=> $newop[$i]['cluster'],
+				'kode' 		=> $newop[$i]['kode'],
+				'terjual'	=> $newop[$i]['terjual'],
+				'frek' 		=> $newop[$i]['frek'],
 			];
 		}
 
@@ -552,7 +538,7 @@ class Manage_data extends BaseController
 		$centc1 = $this->data_model->centroid($cl1);		//get centroid per cluster
 		$centc2 = $this->data_model->centroid($cl2);
 		$centc3 = $this->data_model->centroid($cl3);
-		
+
 		echo "centroid";
 		d($centc1);
 		d($centc2);
@@ -562,7 +548,7 @@ class Manage_data extends BaseController
 		$ssw2 = $this->data_model->sswi($cl2, $centc2);
 		$ssw3 = $this->data_model->sswi($cl3, $centc3);
 
-		echo "perhitungan dbi";
+		echo "perhitungan ssw";
 		d($ssw1);
 		d($ssw2);
 		d($ssw3);
@@ -585,10 +571,23 @@ class Manage_data extends BaseController
 		d($r13);
 		d($r23);
 
-		$dbi = max($r12, $r13, $r23) / 3;
+		$ri1 = max($r12, $r13);
+		$ri2 = max($r12, $r23);
+		$ri3 = max($r13, $r23);
+
+		echo "perhitungan ri";
+		d($ri1);
+		d($ri2);
+		d($ri3);
+
+		$dbi = ($ri1 + $ri2 + $ri3) / 3;
+		echo "dbi final";
+		d($dbi);
 
 		$selsimp = round($selsimp, 6);
 		$dbi = round($dbi, 6);
+
+
 
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
@@ -645,7 +644,7 @@ class Manage_data extends BaseController
 	}
 
 	// ///////////////////////////////////////////////////////////
-	
+
 
 	public function olah_dokumen_sample()		//upload dan olah xlsx 31/5 pake phpspreadsheet, parameter-> (tanggal input , dokumen xlsx)
 	{
@@ -676,12 +675,12 @@ class Manage_data extends BaseController
 			$date2 = $spreadsheet->getActiveSheet()->getCell('D2')->getFormattedValue();
 			$date2 = strtotime($date2);
 			$date2 = date('Y-m-d', $date2);
-			
+
 			$highestColumn = $spreadsheet->setActiveSheetIndex(0)->getHighestColumn();
 			$highestRow = ($spreadsheet->setActiveSheetIndex(0)->getHighestRow()) - 1;
 
 			$coord = $highestColumn . "{$highestRow}";
-			
+
 			$worksheet = $spreadsheet->getActiveSheet()->rangeToArray(
 				"B4:{$coord}",     // The worksheet range that we want to retrieve
 				// "B35:J71",
@@ -715,7 +714,7 @@ class Manage_data extends BaseController
 				$worksheet[$i]["frek"] = str_replace(".", "", $worksheet[$i]["frek"]);
 				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 			}
-			
+
 			$ids = array_search('PLASTIK TLOGO MART', array_column($worksheet, 'nama_produk'));
 			unset($worksheet[$ids]);
 
@@ -757,16 +756,18 @@ class Manage_data extends BaseController
 		// // array kedua khusus utk operasi
 		$optable = array();
 		for ($i = 0; $i < count($data['worksheet']); $i++) {
-			$optable[$i]['kode']	 = $data['worksheet'][$i]['kode'];
+			$optable[$i]['kode']	 	 = $data['worksheet'][$i]['kode'];
 			$optable[$i]['nama_produk']	 = $data['worksheet'][$i]['nama_produk'];
-			$optable[$i]['terjual'] = $data['worksheet'][$i]['terjual'];
-			$optable[$i]['frek']	 = $data['worksheet'][$i]['frek'];
-			$optable[$i]['normfrek'] = $data['worksheet'][$i]['normfrek'];
-			$optable[$i]['normjual'] = $data['worksheet'][$i]['normjual'];
+			$optable[$i]['terjual'] 	 = $data['worksheet'][$i]['terjual'];
+			$optable[$i]['frek']	 	 = $data['worksheet'][$i]['frek'];
+			$optable[$i]['normfrek'] 	 = $data['worksheet'][$i]['normfrek'];
+			$optable[$i]['normjual'] 	 = $data['worksheet'][$i]['normjual'];
 
 			unset($data['worksheet'][$i]['normfrek']);
 			unset($data['worksheet'][$i]['normjual']);
 		}
+
+		// dd($optable);
 
 		// 	// // get medoid (ditaruh sini agar bisa randomized), hitung jarak, clusterisasi
 		$tampilloop = array();		//mother array utk proses kmedoids 
@@ -775,50 +776,85 @@ class Manage_data extends BaseController
 		$lpcnt = 0;					//loop count
 		$selsimp = 0; 				//selisih simpangan
 
-		$meds = [			
+		// // // iterasi pertama
+		// $meds	   	= $this->data_model->getMedoidNorm($optable);
+		$meds = [
 			[
-				$optable[127],
-				$optable[2097],
-				$optable[2448],
+				$optable[688],
+				$optable[1266],
+				$optable[1457],
 			],
 			[
-				$optable[1391],
-				$optable[2523],
-				$optable[1647],
+				$optable[2371],
+				$optable[1477],
+				$optable[2381],
 			]
 		];
 
-		// for ($i = 0; $i < 100; $i++) {
-		for ($i = 0; $i < 2; $i++) {
+		$tampilloop[0] 	= [
+			'meds1' 	=> $meds[0],
+			'dis' 		=> $newop = $this->data_model->countdis1($optable, $meds[0]),
+			'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+			'cl' 		=> $newop = $this->data_model->clustering($newop),
+			'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
+		];
 
-			$tampilloop[$i] = [
-				// 'meds1' 	=> $meds1   = $this->data_model->getMedoidNorm($optable),
-				'meds' 	=> $meds[$i],
- 
-				'optable' 	=> $optable = $this->data_model->countdis1($optable, $meds[$i]),
-				'optable' 	=> $optable = $this->data_model->getSimpangan($optable),
-				'optable' 	=> $optable = $this->data_model->clustering($optable),
-				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
-			];
-		}
+		d($newop);
+
+		// for ($i = 0; $i < count($meds); $i++) {
+		// 	$key[$i] = array_search($meds[$i]['kode'], array_column($newop, 'kode'));
+		// }
+		// for ($i = 0; $i < count($key); $i++) {
+		// 	$medsop[$i] = $newop[$key[$i]];				//medoid di optable
+		// }
+
+		// d($medsop);
+
+		// $newmeds = $this->data_model->getMedoidNorm3($optable); 
+
+		// d($newmeds);
+		// dd($optable);
+
+		// iterasi n
+		// for ($i = 1; $i < 11; $i++) {
+		// for ($i = 0; $i < 2; $i++) {
+		$tampilloop[1] = [
+			'meds1' 	=> $meds[1],
+			// 'meds'		=> $meds 	= $this->data_model->getMedoidNorm3($newop),
+			'dis' 		=> $newop = $this->data_model->countdis1($newop, $meds[1]),
+			'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+			'cl' 		=> $newop = $this->data_model->clustering($newop),
+			'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
+		];
+		// }
 
 		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
 		do {
 			// $selsimp = $tampilloop[$lpcnt + 1]['jumsimp'] - $tampilloop[$lpcnt]['jumsimp'];
 			$selsimp = $tampilloop[1]['jumsimp'] - $tampilloop[0]['jumsimp'];
-
 			$lpcnt++;
 		} while ($selsimp < 0);
 
+		// echo "<pre>";
+		d($tampilloop);
+
+		echo "hasil hitungan iterasi 1";
+		d($tampilloop[0]['cl']);
+
+		echo "hasil hitungan iterasi 2";
+		d($tampilloop[1]['cl']);
+
+		echo $selsimp;
+		// exit;
 
 		// 	// 	// // // // // //	=	=	=	==			= DBI PROCESS STARTS HERE
 		// 	// 	// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan DBI
-		for ($i = 0; $i < count($optable); $i++) {
+		for ($i = 0; $i < count($newop); $i++) {
 			$clustarray[$i] = [
-				'cluster' 	=> $optable[$i]['cluster'],
-				'kode' 		=> $optable[$i]['kode'],
-				'terjual'	=> $optable[$i]['terjual'],
-				'frek' 		=> $optable[$i]['frek'],
+				'cluster' 	=> $newop[$i]['cluster'],
+				'kode' 		=> $newop[$i]['kode'],
+				'terjual'	=> $newop[$i]['terjual'],
+				'frek' 		=> $newop[$i]['frek'],
 			];
 		}
 
@@ -827,26 +863,65 @@ class Manage_data extends BaseController
 		$cl2 = $this->data_model->clust_array($clustarray, 2);
 		$cl3 = $this->data_model->clust_array($clustarray, 3);
 
+		echo "pemisahan per cluster";
+
+		d($cl1);
+		d($cl2);
+		d($cl3);
+
 		$centc1 = $this->data_model->centroid($cl1);		//get centroid per cluster
 		$centc2 = $this->data_model->centroid($cl2);
 		$centc3 = $this->data_model->centroid($cl3);
+
+		echo "centroid";
+		d($centc1);
+		d($centc2);
+		d($centc3);
 
 		$ssw1 = $this->data_model->sswi($cl1, $centc1);		//jarak cluster ke centroid
 		$ssw2 = $this->data_model->sswi($cl2, $centc2);
 		$ssw3 = $this->data_model->sswi($cl3, $centc3);
 
+		echo "perhitungan ssw";
+		d($ssw1);
+		d($ssw2);
+		d($ssw3);
+
 		$ssb12 = $this->data_model->ssbij($centc1, $centc2);	//jarak antar centroid
 		$ssb13 = $this->data_model->ssbij($centc1, $centc3);
 		$ssb23 = $this->data_model->ssbij($centc2, $centc3);
+
+		echo "perhitungan ssb";
+		d($ssb12);
+		d($ssb13);
+		d($ssb23);
 
 		$r12 = $this->data_model->rij($ssw1, $ssw2, $ssb12);
 		$r13 = $this->data_model->rij($ssw1, $ssw3, $ssb13);
 		$r23 = $this->data_model->rij($ssw2, $ssw3, $ssb23);
 
-		$dbi = max($r12, $r13, $r23) / 3;
+		echo "perhitungan rij";
+		d($r12);
+		d($r13);
+		d($r23);
+
+		$ri1 = max($r12, $r13);
+		$ri2 = max($r12, $r23);
+		$ri3 = max($r13, $r23);
+
+		echo "perhitungan ri";
+		d($ri1);
+		d($ri2);
+		d($ri3);
+
+		$dbi = ($ri1 + $ri2 + $ri3) / 3;
+		echo "dbi final";
+		d($dbi);
 
 		$selsimp = round($selsimp, 6);
 		$dbi = round($dbi, 6);
+
+
 
 		$tabfin = array_merge($cl1, $cl2, $cl3);						//ARRAY YG DIPISAH DIJADIIN 1
 		// // // // ========	=	=	=	==	=	=	=	=		=	==	 END DBI VAL
@@ -897,7 +972,7 @@ class Manage_data extends BaseController
 			"dbi" 			=> $dbi,
 			"selisih_simpangan" => $selsimp
 		];
-		
+
 		$this->penjualan_model->save($dataPenjualan);
 
 		$penjualan_id = $this->penjualan_model->insertID();		//get id penjualan dari tabel penjualan
@@ -996,7 +1071,7 @@ class Manage_data extends BaseController
 				$worksheet[$i]["frek"] = $worksheet[$i]["frek"] / 100;
 			}
 
-			
+
 			// dd($worksheet);
 
 			$ids = array_search('PLASTIK TLOGO MART', array_column($worksheet, 'nama_produk'));
@@ -1059,67 +1134,69 @@ class Manage_data extends BaseController
 		$lpcnt = 0;					//loop count
 		$selsimp = 0; 				//selisih simpangan
 
-		// $meds0 = array(
-		// 	$optable[127],
-		// 	$optable[2097],
-		// 	$optable[2448],
-		// );
-
-		// $meds1 = array(
-		// 	$optable[1391],
-		// 	$optable[2523],
-		// 	$optable[1647],
-		// );
-
+		// // // iterasi pertama
+		// $meds	   	= $this->data_model->getMedoidNorm($optable);
 		$meds = [
-			
 			[
-				$optable[127],
-				$optable[2097],
-				$optable[2448],
+				$optable[688],
+				$optable[1266],
+				$optable[1457],
 			],
 			[
-				$optable[1391],
-				$optable[2523],
-				$optable[1647],
+				$optable[2371],
+				$optable[1477],
+				$optable[2381],
 			]
 		];
 
-		// dd($meds);
 		
-		// d($optable);
 		d($meds);
 
+		$tampilloop[0] 	= [
+			'meds1' 	=> $meds[0],
+			'dis' 		=> $newop = $this->data_model->countdis1($optable, $meds[0]),
+			'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+			'cl' 		=> $newop = $this->data_model->clustering($newop),
+			'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
+		];
 
-		// PAKENYA MULTI ARRAY AJA
-		// MEDS 1[] 2[]
+		for ($i = 0; $i < 3; $i++) {
+			$key[$i] = array_search($meds[0][$i]['kode'], array_column($newop, 'kode'));
+		}
+		for ($i = 0; $i < 3; $i++) {
+			$medsop1[$i] = $newop[$key[$i]];				//medoid di optable
+		}
+		d($medsop1);
+		// d($newop);
 
-		// for ($i = 0; $i < 100; $i++) {
-		for ($i = 0; $i < 2; $i++) {
-			$tampilloop[$i] = [
-				// 'meds1' 	=> $meds[$i]   = $this->data_model->getMedoidNorm($optable),
-				'meds' 	=> $meds[$i],
 
-				// 'meds1' 	=> $meds1   = array(
-				// 	$optable[197],
-				// 	$optable[171],
-				// 	$optable[1376],
-				// ),
-				'dis' 	=> $optable = $this->data_model->countdis1($optable, $meds[$i]),
-				'simp' 	=> $optable = $this->data_model->getSimpangan($optable),
-				'cl' 	=> $optable = $this->data_model->clustering($optable),
-				'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($optable),
-			];
+		// $newmeds = $this->data_model->getMedoidNorm3($optable); 
+
+		// d($newmeds);
+		// dd($optable);
+
+		// iterasi n
+		// for ($i = 1; $i < 11; $i++) {
+		// for ($i = 0; $i < 2; $i++) {
+		$tampilloop[1] = [
+			'meds1' 	=> $meds[1],
+			// 'meds'		=> $meds 	= $this->data_model->getMedoidNorm3($newop),
+			'dis' 		=> $newop = $this->data_model->countdis1($newop, $meds[1]),
+			'simp' 		=> $newop = $this->data_model->getSimpangan($newop),
+			'cl' 		=> $newop = $this->data_model->clustering($newop),
+			'jumsimp' 	=> $jumsimp = $this->data_model->sumSimpangan($newop),
+		];
+		// }
+
+
+		for ($i = 0; $i < 3; $i++) {
+			$key[$i] = array_search($meds[1][$i]['kode'], array_column($newop, 'kode'));
+		}
+		for ($i = 0; $i < 3; $i++) {
+			$medsop2[$i] = $newop[$key[$i]];				//medoid di optable
 		}
 
-		// echo "<pre>";
-		echo "hasil hitungan iterasi 1";
-		d($tampilloop[0]['cl']);
-
-		echo "hasil hitungan iterasi 2";
-		d($tampilloop[1]['cl']);
-
-
+		d($medsop2);
 
 		// 	// 	// // ========	=	=	=	==			=	==selama hasil minus berkurang, berarti kondisinya while selisih < 0
 		do {
@@ -1128,16 +1205,26 @@ class Manage_data extends BaseController
 			$lpcnt++;
 		} while ($selsimp < 0);
 
-		// echo $selsimp; exit;
+		// echo "<pre>";
+		d($tampilloop);
+
+		echo "hasil hitungan iterasi 1";
+		d($tampilloop[0]['cl']);
+
+		echo "hasil hitungan iterasi 2";
+		d($tampilloop[1]['cl']);
+
+		echo $selsimp;
+		// exit;
 
 		// 	// 	// // // // // //	=	=	=	==			= DBI PROCESS STARTS HERE
 		// 	// 	// // ========	=	=	=	==memasukkan cluster2 ke array masing2 untuk memudahkan DBI
-		for ($i = 0; $i < count($optable); $i++) {
+		for ($i = 0; $i < count($newop); $i++) {
 			$clustarray[$i] = [
-				'cluster' 	=> $optable[$i]['cluster'],
-				'kode' 		=> $optable[$i]['kode'],
-				'terjual'	=> $optable[$i]['terjual'],
-				'frek' 		=> $optable[$i]['frek'],
+				'cluster' 	=> $newop[$i]['cluster'],
+				'kode' 		=> $newop[$i]['kode'],
+				'terjual'	=> $newop[$i]['terjual'],
+				'frek' 		=> $newop[$i]['frek'],
 			];
 		}
 
@@ -1146,7 +1233,7 @@ class Manage_data extends BaseController
 		$cl2 = $this->data_model->clust_array($clustarray, 2);
 		$cl3 = $this->data_model->clust_array($clustarray, 3);
 
-		echo "pemisahan per cluster";
+		echo "\npemisahan per cluster";
 
 		d($cl1);
 		d($cl2);
@@ -1155,7 +1242,7 @@ class Manage_data extends BaseController
 		$centc1 = $this->data_model->centroid($cl1);		//get centroid per cluster
 		$centc2 = $this->data_model->centroid($cl2);
 		$centc3 = $this->data_model->centroid($cl3);
-		
+
 		echo "centroid";
 		d($centc1);
 		d($centc2);
@@ -1165,7 +1252,7 @@ class Manage_data extends BaseController
 		$ssw2 = $this->data_model->sswi($cl2, $centc2);
 		$ssw3 = $this->data_model->sswi($cl3, $centc3);
 
-		echo "perhitungan dbi";
+		echo "perhitungan ssw";
 		d($ssw1);
 		d($ssw2);
 		d($ssw3);
@@ -1188,7 +1275,18 @@ class Manage_data extends BaseController
 		d($r13);
 		d($r23);
 
-		$dbi = max($r12, $r13, $r23) / 3;
+		$ri1 = max($r12, $r13);
+		$ri2 = max($r12, $r23);
+		$ri3 = max($r13, $r23);
+
+		echo "perhitungan ri";
+		d($ri1);
+		d($ri2);
+		d($ri3);
+
+		$dbi = ($ri1 + $ri2 + $ri3) / 3;
+		echo "dbi final";
+		d($dbi);
 
 		$selsimp = round($selsimp, 6);
 		$dbi = round($dbi, 6);
@@ -1246,5 +1344,4 @@ class Manage_data extends BaseController
 		// $dbi = floatval(str_replace('.', ',', $dbi));
 		// $selsimp = floatval(str_replace('.', ',', $selsimp));
 	}
-
 }
