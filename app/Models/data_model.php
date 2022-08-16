@@ -45,6 +45,78 @@ class data_model extends Model
         }
     }
 
+    public function getMedoidNorm2($tabel)      // FAIL LOL
+    {
+        $randy = mt_rand(0, (count($tabel)));
+        // for ($i = 0; $i < count($randy); $i++) {
+        $medoidnorm = $tabel[$randy];
+        // }
+        return $medoidnorm;
+    }
+
+    public function getMedoidNorm3($tabel)
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $randy[] = mt_rand(0, (count($tabel) - 1));
+        }
+        for ($i = 0; $i < count($randy); $i++) {
+            $medoidnorm[] = $tabel[$randy[$i]];
+        }
+
+        $a = $medoidnorm[0];
+        $b = $medoidnorm[1];
+        $c = $medoidnorm[2];
+
+        if ($a['cluster'] == $b['cluster'] or $b['cluster'] == $c['cluster'] or $c['cluster'] == $a['cluster']) {
+            return $this->getMedoidNorm3($tabel);
+        } elseif (
+            $a['normjual'] == $b['normjual'] or
+            $a['normfrek'] == $b['normfrek'] or
+
+            $b['normjual'] == $c['normjual'] or
+            $b['normfrek'] == $c['normfrek'] or
+
+            $c['normjual'] == $a['normjual'] or
+            $c['normfrek'] == $a['normfrek']
+        ) {
+            return $this->getMedoidNorm3($tabel);
+        } else {
+            return $medoidnorm;
+        }
+    }
+
+    public function getMedoidNorm4($tabel, $oldmed)
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $randy[] = mt_rand(0, (count($tabel) - 1));
+        }
+        for ($i = 0; $i < count($randy); $i++) {
+            $medoidnorm[] = $tabel[$randy[$i]];
+        }
+
+        $a = $medoidnorm[0];
+        $b = $medoidnorm[1];
+        $c = $medoidnorm[2];
+
+        if ($a['cluster'] == $b['cluster'] or $b['cluster'] == $c['cluster'] or $c['cluster'] == $a['cluster']) {
+            return $this->getMedoidNorm3($tabel, $oldmed);
+        } elseif (
+            $a['normjual'] == $oldmed['normjual'] or
+            $a['normfrek'] == $oldmed['normfrek'] or
+
+            $b['normjual'] == $oldmed['normjual'] or
+            $b['normfrek'] == $oldmed['normfrek'] or
+
+            $c['normjual'] == $oldmed['normjual'] or
+            $c['normfrek'] == $oldmed['normfrek']
+        ) {
+            return $this->getMedoidNorm3($tabel, $oldmed);
+        } else {
+            return $medoidnorm;
+        }
+    }
+
+
     public function normalisasi($tabel, $maxminfj)
     {
         // loop for penjualan
